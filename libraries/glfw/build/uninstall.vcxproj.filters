@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Player6\source\repos\PhantaStoryOn\glfw-3.3.2\build\CMakeFiles\4900d7f496e7545ecbdeb8f45f8f975f\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\Player6\source\repos\PhantaStoryOn\glfw-3.3.2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Player6\source\repos\PhantaStoryOn\glfw-3.3.2\build\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3BABE8BB-9732-3D95-B71C-7C2DE066A494}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
