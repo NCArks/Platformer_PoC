@@ -51,23 +51,9 @@ target_include_directories("glad" PRIVATE "${GLAD_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "glad" "${CMAKE_DL_LIBS}")
 
-# glsl shaders
-#file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
-
-#ADD_CUSTOM_TARGET(
-#    copy_shader_files
-#    ${CMAKE_COMMAND}
-#    -D SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
-#    -D DESTINATION_DIR=${CMAKE_CURRENT_BINARY_DIR} 
-#    -P CopyFile.cmake
-#    COMMENT "Copying Files for target: test_SphereShader" VERBATIM 
-#    )
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shaders/fragment.glsl ${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders/fragment.glsl COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shaders/vertex.glsl ${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders/ COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shaders/tile.glsl ${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders/ COPYONLY)
-
-#ADD_DEPENDENCIES (${PROJECT_NAME} copy_shader_files)
 
 # imgui
 target_include_directories(${PROJECT_NAME} PRIVATE "imgui")

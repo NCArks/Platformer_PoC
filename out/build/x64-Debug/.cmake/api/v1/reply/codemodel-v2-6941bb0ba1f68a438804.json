@@ -19,7 +19,9 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						2,
+						3,
+						4
 					]
 				},
 				{
@@ -34,7 +36,11 @@
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 1,
-					"source" : "libraries/glfw"
+					"source" : "libraries/glfw",
+					"targetIndexes" : 
+					[
+						1
+					]
 				},
 				{
 					"build" : "libraries/glfw/src",
@@ -47,7 +53,7 @@
 					"source" : "libraries/glfw/src",
 					"targetIndexes" : 
 					[
-						2
+						5
 					]
 				}
 			],
@@ -67,7 +73,9 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						2,
+						3,
+						4
 					]
 				},
 				{
@@ -80,7 +88,8 @@
 					"parentIndex" : 0,
 					"targetIndexes" : 
 					[
-						2
+						1,
+						5
 					]
 				}
 			],
@@ -88,22 +97,43 @@
 			[
 				{
 					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-e41211094712b5aebd19.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@35bb805c068f9c219110",
+					"jsonFile" : "target-ALL_BUILD-Debug-bff964679ab6775611cd.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "SomethingPlatform::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-SomethingPlatform-Debug-ceda7215ed29d7e25cf7.json",
+					"jsonFile" : "target-SomethingPlatform-Debug-6182ea58f21cd0ab26c3.json",
 					"name" : "SomethingPlatform",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-bfaed11233c91d2284ec.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "glad::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-glad-Debug-ff36cef7f16a11beecc8.json",
+					"jsonFile" : "target-glad-Debug-210f6b611a741f44b100.json",
 					"name" : "glad",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "glfw::@7d8f67159c48f691a52d",
-					"jsonFile" : "target-glfw-Debug-4f0a7e1ed6a342b0336e.json",
+					"jsonFile" : "target-glfw-Debug-95a04141b9f64a1a05f9.json",
 					"name" : "glfw",
 					"projectIndex" : 1
 				}
@@ -113,7 +143,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug (par défaut)",
+		"build" : "C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug",
 		"source" : "C:/Users/Player6/source/repos/SomethingPlatform"
 	},
 	"version" : 

@@ -1,3 +1,0 @@
-cmake_minimum_required(VERSION 3.8)
-
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
