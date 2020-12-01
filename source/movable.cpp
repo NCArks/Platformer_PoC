@@ -16,6 +16,19 @@ void Movable::UpdatePhysics(const float delta_time, const Map map) {
     _posx += _speedx * delta_time;
     _posy += _speedy * delta_time;
 
+    float wallx;
+    if (_speedx < 0 && CollideLeftWall(wallx, map)) {
+        _posx = wallx + _half_width - _offsetx;
+        // std::cout << "hit lw" << wallx << " " << _posx << std::endl;
+        _speedx = 0;
+    }
+
+    if (_speedx > 0 && CollideRightWall(wallx, map)) {
+        _posx = wallx - _half_width - _offsetx;
+        // std::cout << "hit rw" << wallx << " " << _posx << std::endl;
+        _speedx = 0;
+    }
+
     float groundy;
     if (_speedy <= 0 && HasGround(groundy, map)) {
         _posy = groundy + _half_height - _offsety;
@@ -30,19 +43,6 @@ void Movable::UpdatePhysics(const float delta_time, const Map map) {
         // std::cout << "hit c" << std::endl;
         _posy = groundy - _half_height - _offsety;
         _speedy = 0;
-    }
-
-    float wallx;
-    if (_speedx < 0 && CollideLeftWall(wallx, map)) {
-        _posx = wallx + _half_width - _offsetx;
-        // std::cout << "hit lw" << wallx << " " << _posx << std::endl;
-        _speedx = 0;
-    }
-
-    if (_speedx > 0 && CollideRightWall(wallx, map)) {
-        _posx = wallx - _half_width - _offsetx;
-        // std::cout << "hit rw" << wallx << " " << _posx << std::endl;
-        _speedx = 0;
     }
 }
 
@@ -62,12 +62,14 @@ bool Movable::HasGround(float& groundy, const Map& map) {
         int tilex_left = map.GetMapTileXAtPoint(leftx);
         int tilex_right = map.GetMapTileXAtPoint(leftx + 1.98f * _half_width);
         for (int i = tilex_left; i <= tilex_right; i++) {
+            //std::cout << "checking " << i << "," << tiley << std::endl;
             if (map.IsGround(i, tiley)) {
                 return true;
             }
         }
         tiley -= 1;
         groundy = (float)tiley * map.getTileSize() + map.getTileSize() + map.getPosY();
+        //std::cout << (float)(tiley)*map.getTileSize() << " " << (float)map.getTileSize() << " " << (float)map.getPosX() << " " << groundy << std::endl;
     }
     return false;
 }
