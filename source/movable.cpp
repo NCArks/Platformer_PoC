@@ -38,20 +38,11 @@ void Movable::UpdatePhysics(const float delta_time, const Map map) {
         _speedx = 0;
     }
 
-    //std::cout << "broken?" << std::endl;
     if (_speedx > 0 && CollideRightWall(wallx, map)) {
         _posx = wallx - _half_width - _offsetx;
+        // std::cout << "hit rw" << wallx << " " << _posx << std::endl;
         _speedx = 0;
     }
-
-    /*if (_posy <= 0.0f) {
-        _posy = 0.0f;
-        _on_ground = true;
-    } else {
-        _on_ground = false;
-    }*/
-
-    //_collider.setPos(_posx+ _offsetx, _posy + _offsety);
 }
 
 bool Movable::HasGround(float& groundy, const Map& map) {
@@ -62,49 +53,21 @@ bool Movable::HasGround(float& groundy, const Map& map) {
     float new_leftx = _posx + _offsetx - _half_width;
 
     int tiley = map.GetMapTileYAtPoint(old_bottomy);
-    //groundy = (float)tiley * map.getTileSize() + map.getTileSize() + map.getPosY();
+    int new_tiley = map.GetMapTileYAtPoint(new_bottomy);
     groundy = old_bottomy;
 
     while(groundy >= new_bottomy) {
         float leftx = old_leftx + (groundy - old_bottomy) / (new_bottomy - old_bottomy) * (new_leftx - old_leftx);
         int tilex_left = map.GetMapTileXAtPoint(leftx);
-        int tilex_right = map.GetMapTileXAtPoint(leftx + 2 * _half_width);
+        int tilex_right = map.GetMapTileXAtPoint(leftx + 1.98 * _half_width);
         for (int i = tilex_left; i <= tilex_right; i++) {
             if (map.IsGround(i, tiley)) {
-                //groundy = (float)tiley * map.getTileSize() + map.getTileSize() + map.getPosY();
                 return true;
             }
         }
         tiley -= 1;
         groundy = (float)tiley * map.getTileSize() + map.getTileSize() + map.getPosY();
     }
-    // //follows tutorial
-    //float check_tile_at_x = leftx;
-    //while (check_tile_at_x < rightx) {
-    //    int tilex = map.GetMapTileXAtPoint(check_tile_at_x);
-    //    int tiley = map.GetMapTileYAtPoint(bottomy);
-    //    if (map.IsGround(tilex, tiley)) {
-    //        return true;
-    //    }
-    //    check_tile_at_x += map.getTileSize();
-    //}
-    //int tilex = map.GetMapTileXAtPoint(rightx);
-    //int tiley = map.GetMapTileYAtPoint(bottomy);
-    //if (map.IsGround(tilex, tiley)) {
-    //    return true;
-    //}
-    //return false;
-
-    // //looks like a better version
-    //int tilex_left = map.GetMapTileXAtPoint(leftx);
-    //int tilex_right = map.GetMapTileXAtPoint(rightx);
-    //int tiley = map.GetMapTileYAtPoint(bottomy);
-    //for (int i = tilex_left; i <= tilex_right; i++) {
-    //    if (map.IsGround(i, tiley)) {
-    //        groundy = (float)tiley * map.getTileSize() + map.getTileSize() + map.getPosY();
-    //        return true;
-    //    }
-    //}
     return false;
 }
 
@@ -116,13 +79,12 @@ bool Movable::HasCeilling(float& ceily, const Map& map) {
     float new_leftx = _posx + _offsetx - _half_width;
 
     int tiley = map.GetMapTileYAtPoint(old_topy);
-    //ceily = (float)(tiley - 1) * map.getTileSize() + map.getTileSize() + map.getPosY();
     ceily = old_topy;
 
     while(ceily <= new_topy) {
         float leftx = old_leftx + (ceily - old_topy) / (new_topy - old_topy) * (new_leftx - old_leftx);
         int tilex_left = map.GetMapTileXAtPoint(leftx);
-        int tilex_right = map.GetMapTileXAtPoint(leftx + 2 * _half_width);
+        int tilex_right = map.GetMapTileXAtPoint(leftx + 1.98 * _half_width);
         for (int i = tilex_left; i <= tilex_right; i++) {
             if (map.IsObstacle(i, tiley)) {
                 return true;
@@ -149,9 +111,7 @@ bool Movable::CollideLeftWall(float& wallx, const Map& map) {
 
         int tiley_top = map.GetMapTileYAtPoint(topy);
         int tiley_bottom = map.GetMapTileYAtPoint(topy - 1.95 * _half_height);
-        //  std::cout << "ytop " << topy << " " << tiley_top << ", ybot" << topy - 1.95 * _half_height << " " << tiley_bottom << std::endl;
         for (int i = tiley_top; i >= tiley_bottom; i--) {
-            // std::cout << "checking " << tilex << " ," << i << std::endl;
             if (map.IsObstacle(tilex, i)) {
                 return true;
             }
@@ -163,30 +123,25 @@ bool Movable::CollideLeftWall(float& wallx, const Map& map) {
 }
 
 bool Movable::CollideRightWall(float& wallx, const Map& map) {
-    float old_rightx = _old_posx + _offsetx + _half_width;
+    float old_rightx = _old_posx + _offsetx + 0.99 * _half_width;
     float old_topy = _old_posy + _offsety + 0.99 * _half_height;
-
-    float new_rightx = _posx + _offsetx + 1.01 * _half_width;
+    
+    float new_rightx = _posx + _offsetx + _half_width;
     float new_topy = _posy + _offsety + 0.99 * _half_height;
 
     int tilex = map.GetMapTileXAtPoint(old_rightx);
+    int new_tilex = map.GetMapTileXAtPoint(new_rightx);
     wallx = old_rightx;
-    std::cout << wallx << std::endl;
-    while (wallx <= new_rightx) {
+    for (; tilex <= new_tilex; tilex++) {
         float topy = old_topy + (wallx - old_rightx) / (new_rightx - old_rightx) * (new_topy - old_topy);
-
         int tiley_top = map.GetMapTileYAtPoint(topy);
         int tiley_bottom = map.GetMapTileYAtPoint(topy - 1.95 * _half_height);
-        // std::cout << "ytop " << topy << " " << tiley_top << ", ybot" << topy - 1.95 * _half_height << " " << tiley_bottom << std::endl;
         for (int i = tiley_top; i >= tiley_bottom; i--) {
-            // std::cout << "checking " << tilex << " ," << i << std::endl;
             if (map.IsObstacle(tilex, i)) {
                 return true;
             }
         }
-        tilex += 1;
         wallx = (float)((tilex)*map.getTileSize() + map.getTileSize() + map.getPosX());
-        std::cout << (float)(tilex)*map.getTileSize() << " " << (float)map.getTileSize() << " " << (float)map.getPosX() << " " << wallx << std::endl;
     }
     return false;
 }
