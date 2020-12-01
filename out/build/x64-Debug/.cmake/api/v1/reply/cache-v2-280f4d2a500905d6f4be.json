@@ -327,7 +327,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "/machine:X86"
+			"value" : "/machine:x64"
 		},
 		{
 			"name" : "CMAKE_EXE_LINKER_FLAGS_DEBUG",
@@ -439,7 +439,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "Win32"
+			"value" : "x64"
 		},
 		{
 			"name" : "CMAKE_GENERATOR_TOOLSET",
@@ -759,7 +759,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x86/link.exe"
+			"value" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x64/link.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -775,7 +775,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "/machine:X86"
+			"value" : "/machine:x64"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS_DEBUG",
@@ -1111,7 +1111,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "/machine:X86"
+			"value" : "/machine:x64"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS_DEBUG",
@@ -1223,7 +1223,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "/machine:X86"
+			"value" : "/machine:x64"
 		},
 		{
 			"name" : "CMAKE_STATIC_LINKER_FLAGS_DEBUG",

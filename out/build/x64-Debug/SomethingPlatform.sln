@@ -35,18 +35,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glfw", "libraries\glfw\src\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D93408F7-00D2-3B45-BEAC-006378AED8D6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{ECA3A634-A618-3559-B970-698ED7675C8B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{ECA3A634-A618-3559-B970-698ED7675C8B}.Debug|Win32.Build.0 = Debug|Win32
-		{237922FF-705D-360A-9DFB-62ADC77EF0B2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{237922FF-705D-360A-9DFB-62ADC77EF0B2}.Debug|Win32.Build.0 = Debug|Win32
-		{B5910C64-B846-3E1E-8284-CE8FCA6BD4F2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B5910C64-B846-3E1E-8284-CE8FCA6BD4F2}.Debug|Win32.Build.0 = Debug|Win32
-		{D145799D-26D3-3631-A2C0-898FF02EBD18}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D145799D-26D3-3631-A2C0-898FF02EBD18}.Debug|Win32.Build.0 = Debug|Win32
+		{D93408F7-00D2-3B45-BEAC-006378AED8D6}.Debug|x64.ActiveCfg = Debug|x64
+		{ECA3A634-A618-3559-B970-698ED7675C8B}.Debug|x64.ActiveCfg = Debug|x64
+		{ECA3A634-A618-3559-B970-698ED7675C8B}.Debug|x64.Build.0 = Debug|x64
+		{237922FF-705D-360A-9DFB-62ADC77EF0B2}.Debug|x64.ActiveCfg = Debug|x64
+		{237922FF-705D-360A-9DFB-62ADC77EF0B2}.Debug|x64.Build.0 = Debug|x64
+		{B5910C64-B846-3E1E-8284-CE8FCA6BD4F2}.Debug|x64.ActiveCfg = Debug|x64
+		{B5910C64-B846-3E1E-8284-CE8FCA6BD4F2}.Debug|x64.Build.0 = Debug|x64
+		{D145799D-26D3-3631-A2C0-898FF02EBD18}.Debug|x64.ActiveCfg = Debug|x64
+		{D145799D-26D3-3631-A2C0-898FF02EBD18}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D93408F7-00D2-3B45-BEAC-006378AED8D6} = {0F231FCF-342C-3D3E-BD94-432487FCDEE9}
