@@ -88,7 +88,7 @@ int main(int, char**) {
 
     LogicElements elements;
     DisplayElements display(elements);
-    ////PlayerDisplay pd1(elements.getP1());
+    //PlayerDisplay pd1(elements.getP1());
     Shader playerIcon;
     Shader mapTile;
     playerIcon.initialize("shaders/vertex.glsl", "shaders/fragment.glsl");
@@ -101,10 +101,12 @@ int main(int, char**) {
     std::thread t1(logic, std::ref(elements), std::ref(inputs), std::ref(clock));
 
     float zoom_level = 1.0f;
+    float camera_x = 0.0f;
     float a = .0f;
     float b = .0f;
     float c = .0f;
     float d = .0f;
+    bool scroll_right = true;
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
@@ -145,15 +147,27 @@ int main(int, char**) {
             ImGui::SliderFloat(std::string("gravity").c_str(), &elements.getP1().getRefGravityConst(), .0f, 1.0f);
             ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &elements.getP1().getRefMaxFallSpd(), -1.0f, .0f);
             ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &elements.getP1().getRefMinJumpSpd(), .0f, 1.0f);
+            ImGui::SliderFloat(std::string("camera_x").c_str(), &camera_x, 0.0f, 20.0f);
             ImGui::SliderFloat(std::string("zoom").c_str(), &zoom_level, 1.0f, 50.0f);
             ImGui::End();
         }
-
-        if (elements.getP1().getPosX() > zoom_level * .95f / aspect_ratio) {
-            zoom_level = elements.getP1().getPosX() * aspect_ratio / .95f;
+        if (scroll_right) {
+            if (elements.getP1().getPosX() - camera_x > zoom_level * .35f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() - zoom_level * .35f / aspect_ratio;
+            }
+            else if (elements.getP1().getPosX() - camera_x < -zoom_level * .65f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() + zoom_level * .35f / aspect_ratio;
+                scroll_right = false;
+            }
         }
-        else if (elements.getP1().getPosX() < -zoom_level * .95f / aspect_ratio) {
-            zoom_level = -elements.getP1().getPosX() * aspect_ratio / .95f;
+        else {
+            if (elements.getP1().getPosX() - camera_x > zoom_level * .65f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() - zoom_level * .35f / aspect_ratio;
+                scroll_right = true;
+            }
+            else if (elements.getP1().getPosX() - camera_x < -zoom_level * .35f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() + zoom_level * .35f / aspect_ratio;
+            }
         }
         if (elements.getP1().getPosY() > zoom_level * .95f) {
             zoom_level = elements.getP1().getPosY() / .95f;
@@ -164,6 +178,7 @@ int main(int, char**) {
 
         mapTile.use();
         mapTile.setU("zoom", 1 / zoom_level);
+        mapTile.setU("camera_x", camera_x);
         mapTile.setU("aspect_ratio", aspect_ratio);
         for (int y = 0; y < elements.getMap().getMapHeight(); y++) {
             for (int x = 0; x < elements.getMap().getMapHeight(); x++) {
@@ -177,6 +192,7 @@ int main(int, char**) {
         playerIcon.setU("aspect_ratio", aspect_ratio);
         playerIcon.setU("pos", elements.getP1().getPosX(), elements.getP1().getPosY());
         playerIcon.setU("zoom", 1 / zoom_level);
+        playerIcon.setU("camera_x", camera_x);
         //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
         display.getPd1().bindDraw();
 

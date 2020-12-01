@@ -6,24 +6,24 @@
 
 class Movable : public BoxCollider {
 public:
-    float _old_posx;
-    float _old_posy;
-    float _old_speedx;
-    float _old_speedy;
-    float _speedx;
-    float _speedy;
-    float _scalex;
-    float _scaley;
-    float _offsetx;
-    float _offsety;
-    bool _pushed_right_wall;
-    bool _pushes_right_wall;
-    bool _pushed_left_wall;
-    bool _pushes_left_wall;
-    bool _was_on_ground;
-    bool _on_ground;
-    bool _was_at_ceiling;
-    bool _at_ceiling;
+    float _old_posx = 0.0f;
+    float _old_posy = 0.0f;
+    float _old_speedx = 0.0f;
+    float _old_speedy = 0.0f;
+    float _speedx = 0.0f;
+    float _speedy = 0.0f;
+    float _scalex = 0.0f;
+    float _scaley = 0.0f;
+    float _offsetx = 0.0f;
+    float _offsety = 0.0f;
+    bool _pushed_right_wall = false;
+    bool _pushes_right_wall = false;
+    bool _pushed_left_wall = false;
+    bool _pushes_left_wall = false;
+    bool _was_on_ground = false;
+    bool _on_ground = false;
+    bool _was_at_ceiling = false;
+    bool _at_ceiling = false;
 
     void UpdatePhysics(const float delta_time, const Map map);
     bool HasGround(float& groundy, const Map& map);

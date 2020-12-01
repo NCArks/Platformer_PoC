@@ -4,7 +4,7 @@
 #include <iostream>
 
 Player::Player() {
-    _current_state = stand;
+    _current_state = PlayerState::stand;
     _walk_speed = .036f; //1.0f;
     _jump_speed = .051f; //500.0f;
     _gravity_constant = .005f; //10.0f;
@@ -28,73 +28,83 @@ Player::Player() {
     _was_at_ceiling = false;
     _at_ceiling = false;
     //BoxCollider _collider;
-    
+
     //_scalex;
     //_scaley;
 }
 
 void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time, Map map) {
     switch (_current_state) {
-    case stand:
+    case PlayerState::stand:
         _speedx = .0f;
         _speedy = .0f;
 
         if (!_on_ground) {
-            _current_state = jump;
+            _current_state = PlayerState::jump;
             break;
         }
         if (keys_pressed.count(262) != keys_pressed.count(263)) {
-            _current_state = walk;
+            _current_state = PlayerState::walk;
             break;
-        } else if (keys_pressed.count(32)) {
+        }
+        else if (keys_pressed.count(32)) {
             _speedy = _jump_speed;
-            _current_state = jump;
+            _current_state = PlayerState::jump;
             break;
         }
         break;
 
-    case walk:
+    case PlayerState::walk:
         if (keys_pressed.count(262) == keys_pressed.count(263)) {
-            _current_state = stand;
+            _current_state = PlayerState::stand;
             _speedx = .0f;
             _speedy = .0f;
-        } else if (keys_pressed.count(262)) {
+        }
+        else if (keys_pressed.count(262)) {
             if (_pushes_left_wall) {
                 _speedx = .0f;
-            } else {
+            }
+            else {
                 _speedx = _walk_speed;
             }
-        } else if (keys_pressed.count(263)) {
+        }
+        else if (keys_pressed.count(263)) {
             if (_pushed_right_wall) {
                 _speedx = .0f;
-            } else {
+            }
+            else {
                 _speedx = -_walk_speed;
             }
         }
-         if (keys_pressed.count(32)) {
+        if (keys_pressed.count(32)) {
             _speedy = _jump_speed;
-            _current_state = jump;
+            _current_state = PlayerState::jump;
             break;
-        } else if (!_on_ground) {
-            _current_state = jump;
+        }
+        else if (!_on_ground) {
+            _current_state = PlayerState::jump;
             break;
         }
         break;
-    case jump:
+    case PlayerState::jump:
         _speedy -= _gravity_constant * delta_time;
         _speedy = std::max(_speedy, _max_fall_speed);
         if (keys_pressed.count(262) == keys_pressed.count(263)) {
             _speedx = .0f;
-        } else if (keys_pressed.count(262)) {
+        }
+        else if (keys_pressed.count(262)) {
             if (_pushes_left_wall) {
                 _speedx = .0f;
-            } else {
+            }
+            else {
                 _speedx = _walk_speed;
             }
-        } else if (keys_pressed.count(263)) {
+        }
+        else if (keys_pressed.count(263)) {
             if (_pushes_right_wall) {
                 _speedx = .0f;
-            } else {
+            }
+            else {
                 _speedx = -_walk_speed;
             }
         }
@@ -103,11 +113,12 @@ void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time
         }
         if (_on_ground) {
             if (keys_pressed.count(262) == keys_pressed.count(263)) {
-                _current_state = stand;
+                _current_state = PlayerState::stand;
                 _speedx = .0f;
                 _speedy = .0f;
-            } else {
-                _current_state = walk;
+            }
+            else {
+                _current_state = PlayerState::walk;
                 _speedy = 0.0f;
             }
         }
@@ -134,11 +145,13 @@ const float Player::getSpdY() const {
 }
 
 const std::string Player::getState() const {
-    if (_current_state == stand) {
+    if (_current_state == PlayerState::stand) {
         return std::string("stand");
-    } else if (_current_state == walk) {
+    }
+    else if (_current_state == PlayerState::walk) {
         return std::string("walk");
-    }else if (_current_state == jump) {
+    }
+    else if (_current_state == PlayerState::jump) {
         return std::string("jump");
     }
     return std::string("somethingelse");

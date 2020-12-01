@@ -4,7 +4,7 @@
 #include "movable.h"
 #include <unordered_set>
 
-enum PlayerState {
+enum class PlayerState {
     stand,
     walk,
     jump
