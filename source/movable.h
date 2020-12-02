@@ -5,7 +5,7 @@
 #include "map.h"
 
 class Movable : public BoxCollider {
-public:
+protected:
     float _old_posx = 0.0f;
     float _old_posy = 0.0f;
     float _old_speedx = 0.0f;
@@ -25,11 +25,15 @@ public:
     bool _was_at_ceiling = false;
     bool _at_ceiling = false;
 
-    void UpdatePhysics(const float delta_time, const Map map);
-    bool HasGround(float& groundy, const Map& map);
-    bool HasCeilling(float& ceily, const Map& map);
-    bool CollideLeftWall(float& wallx, const Map& map);
-    bool CollideRightWall(float& wallx, const Map& map);
+    void updatePhysics(const float delta_time, const Map map);
+
+private:
+    void applyHorizontalCollision(const Map map);
+    void applyVerticalCollision(const Map map);
+    bool hasGround(float& groundy, const Map& map);
+    bool hasCeilling(float& ceily, const Map& map);
+    bool collideLeftWall(float& wallx, const Map& map);
+    bool collideRightWall(float& wallx, const Map& map);
 };
 
 #endif

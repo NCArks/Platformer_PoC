@@ -6,7 +6,10 @@
 enum TileType {
     empty = 0,
     block,
-    platform
+    platform,
+
+    slope45d,
+    slope45b
 };
 
 struct f2loat {
@@ -31,16 +34,16 @@ public:
     const int getMapHeight() const;
 
     /*int GetMapTileAtPoint(float x, float y);*/
-    const int GetMapTileXAtPoint(float x) const; //posYToTileX
-    const int GetMapTileYAtPoint(float y) const; //posXToTileY
-    f2loat GetMapTilePosition(int x, int y); //tileXYToPosXY
-    float GetMapTileX(int x);
-    float GetMapTileY(int y);
-    TileType GetTile(int x, int y);
-    const bool IsObstacle(int x, int y) const;
-    const bool IsGround(int x, int y) const;
-    bool IsOneWayPlatform(int x, int y);
-    bool IsEmpty(int x, int y);
+    const int getMapTileXAtPoint(float x) const; //posYToTileX
+    const int getMapTileYAtPoint(float y) const; //posXToTileY
+    f2loat getMapTilePosition(int x, int y); //tileXYToPosXY
+    float getMapTileX(int x);
+    float getMapTileY(int y);
+    TileType getTile(int x, int y) const;
+    const bool isObstacle(int x, int y) const;
+    const bool isGround(int x, int y) const;
+    bool isOneWayPlatform(int x, int y);
+    bool isEmpty(int x, int y) const;
     float getTileSize() const;
     const float getPosX() const;
     const float getPosY() const;

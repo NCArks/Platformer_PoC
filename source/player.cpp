@@ -125,7 +125,7 @@ void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time
         break;
     }
 
-    UpdatePhysics(delta_time, map);
+    updatePhysics(delta_time, map);
 }
 
 const float Player::getPosX() const {

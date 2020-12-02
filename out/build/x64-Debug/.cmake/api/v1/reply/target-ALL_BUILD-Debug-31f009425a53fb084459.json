@@ -17,13 +17,13 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "SomethingPlatform::@6890427a1f51a3e7e1df"
-		},
-		{
 			"id" : "glfw::@7d8f67159c48f691a52d"
 		},
 		{
 			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "SomethingPlatform::@6890427a1f51a3e7e1df"
 		},
 		{
 			"id" : "glad::@6890427a1f51a3e7e1df"

@@ -11,8 +11,7 @@ protected:
 public:
     BoxCollider();
     ~BoxCollider();
-
-    bool Overlaps(BoxCollider other);
+    bool overlaps(BoxCollider other);
     float getPosX();
     float getPosY();
     float getHalfWidth();

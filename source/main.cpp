@@ -20,6 +20,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 #define ONE_LOGIC_FRAME std::chrono::microseconds(16666)
 
+// Game logic thread's main function
 void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& clock) {
     elements.getMap() = Map(10, 10, map_tiles);
     auto previous_time = clock.now();
@@ -56,12 +57,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 }
 
 int main(int, char**) {
+    // Initialize GLFW
     if (!glfwInit()) {
         return 1;
     }
-
     const char* glsl_version = "#version 130";
 
+    // Create application window
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Phantasy", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -72,54 +74,65 @@ int main(int, char**) {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     //glfwSwapInterval(1);
 
+    // Load GLAD openGL
     bool err = gladLoadGL() == 0;
-
     if (err) {
         return 1;
     }
 
+    // Load ImGui
     ImGui::CreateContext();
     //ImGuiIO& io = ImGui::GetIO(); (void)io;
-
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
-
     ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
+    // Create game elements
     LogicElements elements;
     DisplayElements display(elements);
     //PlayerDisplay pd1(elements.getP1());
+
+    // Load game shaders
     Shader playerIcon;
     Shader mapTile;
     playerIcon.initialize("shaders/vertex.glsl", "shaders/fragment.glsl");
     mapTile.initialize("shaders/vertex.glsl", "shaders/tile.glsl");
 
+    // Initialize GLFW inputs
     Inputs inputs;
     glfwSetKeyCallback(window, inputs.key_callback);
 
+    // Initialize application clock
     auto clock = std::chrono::high_resolution_clock();
+
+    // Start game logic thread
     std::thread t1(logic, std::ref(elements), std::ref(inputs), std::ref(clock));
 
+    // Some display variables
     float zoom_level = 1.0f;
     float camera_x = 0.0f;
+    bool scroll_right = true;
+
+    // "Skill points system" variables
     float a = .0f;
     float b = .0f;
     float c = .0f;
     float d = .0f;
-    bool scroll_right = true;
 
+    // Main display loop
     while (!glfwWindowShouldClose(window)) {
+        // Poll GLFW events
         glfwPollEvents();
 
+        // Clear screen display
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Create new ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
         //ImGui::ShowDemoWindow();
-
         {
             ImGui::Begin("debug info");
 
@@ -151,6 +164,8 @@ int main(int, char**) {
             ImGui::SliderFloat(std::string("zoom").c_str(), &zoom_level, 1.0f, 50.0f);
             ImGui::End();
         }
+
+        // Camera follows player
         if (scroll_right) {
             if (elements.getP1().getPosX() - camera_x > zoom_level * .35f / aspect_ratio) {
                 camera_x = elements.getP1().getPosX() - zoom_level * .35f / aspect_ratio;
@@ -176,18 +191,32 @@ int main(int, char**) {
             zoom_level = -elements.getP1().getPosY() / .95f;
         }
 
+        // Draw map tiles
         mapTile.use();
         mapTile.setU("zoom", 1 / zoom_level);
         mapTile.setU("camera_x", camera_x);
         mapTile.setU("aspect_ratio", aspect_ratio);
         for (int y = 0; y < elements.getMap().getMapHeight(); y++) {
             for (int x = 0; x < elements.getMap().getMapHeight(); x++) {
-                if (elements.getMap().IsObstacle(x, y)) {
-                    mapTile.setU("pos", elements.getMap().GetMapTileX(x), elements.getMap().GetMapTileY(y));
-                    display.getMapDisplay().bindDraw();
+                if (elements.getMap().isObstacle(x, y)) {
+                    mapTile.setU("pos", elements.getMap().getMapTileX(x), elements.getMap().getMapTileY(y));
+                    mapTile.setU("color", 0.8f, 0.8f, 0.8f);
+                    display.getMapDisplay().bindDrawTile();
+                }
+                if (elements.getMap().getTile(x, y) == TileType::slope45d) {
+                    mapTile.setU("pos", elements.getMap().getMapTileX(x), elements.getMap().getMapTileY(y));
+                    mapTile.setU("color", 0.8f, 0.1f, 0.8f);
+                    display.getMapDisplay().bindDrawDTile();
+                }
+                if (elements.getMap().getTile(x, y) == TileType::slope45b) {
+                    mapTile.setU("pos", elements.getMap().getMapTileX(x), elements.getMap().getMapTileY(y));
+                    mapTile.setU("color", 0.1f, 0.8f, 0.8f);
+                    display.getMapDisplay().bindDrawBTile();
                 }
             }
         }
+
+        // Draw player
         playerIcon.use();
         playerIcon.setU("aspect_ratio", aspect_ratio);
         playerIcon.setU("pos", elements.getP1().getPosX(), elements.getP1().getPosY());
@@ -196,13 +225,14 @@ int main(int, char**) {
         //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
         display.getPd1().bindDraw();
 
+        // Draw ImGui elements
         ImGui::Render();
-
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
     }
 
+    // Close application
     elements.setShouldClose();
     t1.join();
     ImGui_ImplOpenGL3_Shutdown();

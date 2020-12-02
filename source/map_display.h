@@ -6,9 +6,15 @@ class Map;
 class MapDisplay {
 private:
     Map* _map;
-    unsigned int _vao;
-    unsigned int _vbo;
-    const float _vertices[18] = {
+    unsigned int _tile_vao;
+    unsigned int _tile_vbo;
+    unsigned int _tile_b_vao;
+    unsigned int _tile_b_vbo;
+    unsigned int _tile_d_vao;
+    unsigned int _tile_d_vbo;
+
+    const unsigned int _tile_nb_vertices = 6;
+    const float _tile_vertices[18] = {
         0.0f, 0.0f, 0.0f,
         1.0f, 0.0f, 0.0f,
         1.0f, 1.0f, 0.0f,
@@ -17,11 +23,24 @@ private:
         1.0f, 1.0f, 0.0f,
         0.0f, 1.0f, 0.0f,
     };
-    const unsigned int _nb_vertices = 6;
+
+    const unsigned int _tile_bd_nb_vertices = 3;
+    const float _tile_b_vertices[9] = {
+        0.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+    };
+    const float _tile_d_vertices[9] = {
+        0.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 0.0f,
+    };
 public:
     MapDisplay(Map& map);
     ~MapDisplay();
-    void bindDraw();
+    void bindDrawTile();
+    void bindDrawBTile();
+    void bindDrawDTile();
 };
 
 #endif

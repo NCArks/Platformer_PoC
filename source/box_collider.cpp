@@ -5,8 +5,8 @@ BoxCollider::BoxCollider() {}
 
 BoxCollider::~BoxCollider() = default;
 
-bool BoxCollider::Overlaps(BoxCollider other) {
-    if(std::abs(_posx - other.getPosX()) > _half_width + other.getHalfWidth()) {
+bool BoxCollider::overlaps(BoxCollider other) {
+    if (std::abs(_posx - other.getPosX()) > _half_width + other.getHalfWidth()) {
         return false;
     }
     if (std::abs(_posy - other.getPosY()) > _half_height + other.getHalfHeight()) {
