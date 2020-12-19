@@ -11,8 +11,8 @@ Player::Player() {
     _max_fall_speed = -.787f; //-100.0f;
     _min_jump_speed = .0f; //10.f;
 
-    _posx = 2;
-    _posy = 2;
+    _posx = 3.4f;
+    _posy = 1.4f;
     _half_width = 0.4f;
     _half_height = 0.4f;
     _offsetx = 0;
@@ -24,7 +24,7 @@ Player::Player() {
     _pushed_left_wall = false;
     _pushes_left_wall = false;
     _was_on_ground = true;
-    _on_ground = true;
+    _on_ground = false;
     _was_at_ceiling = false;
     _at_ceiling = false;
     //BoxCollider _collider;
