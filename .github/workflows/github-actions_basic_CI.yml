@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run : echo "Trigger = ${{ github.event_name }} event, running on ${{ runner.os }}"
-      - run: echo "Branch = ${{ github.ref }} of "${{ github.repository }}."
+      - run: echo "Branch = ${{ github.ref }} "
       - name: Getting the Repo Code &#58; 
         uses: actions/checkout@v2
       - name: configure
