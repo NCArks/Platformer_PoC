@@ -41,8 +41,8 @@ jobs:
       - run: echo "Branch = ${{ github.ref }} "
       - name: Getting the Repo Code &#58; 
         uses: actions/checkout@v2
-      - name: configure
-        run: ./configure
+      #- name: configure
+      #  run: ./configure
       - name: make
         run: make
       - name: make check
