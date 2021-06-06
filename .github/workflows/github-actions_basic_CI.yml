@@ -2,7 +2,7 @@ name: My First GitHub CI
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: '**'
   pull_request:
     branches: [ $default-branch ]
 
