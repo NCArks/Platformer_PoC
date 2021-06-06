@@ -37,8 +37,8 @@ jobs:
     #needs: Setup_CMake
     runs-on: ubuntu-latest
     steps:
-      - run : echo "Trigger &#58; ${{ github.event_name }} event, running on ${{ runner.os }}"
-      - run: echo "Branch &#58; ${{ github.ref }} of "${{ github.repository }}."
+      - run : echo "Trigger = ${{ github.event_name }} event, running on ${{ runner.os }}"
+      - run: echo "Branch = ${{ github.ref }} of "${{ github.repository }}."
       - name: Getting the Repo Code &#58; 
         uses: actions/checkout@v2
       - name: configure
