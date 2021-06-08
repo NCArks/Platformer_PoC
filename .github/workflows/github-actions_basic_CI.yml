@@ -36,6 +36,7 @@ jobs:
         path: ${{github.workspace}}/build/CMakeFiles/*.log
 
     - name: Build the game
+      if: ${{ success() }}
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build
 
