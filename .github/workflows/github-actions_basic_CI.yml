@@ -13,7 +13,6 @@ jobs:
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -31,14 +30,20 @@ jobs:
       run: cmake -B ${{github.workspace}}/build
 
     - uses: actions/upload-artifact@v2
-      if: failure()
-      with:
-        name: CMakeLogs
-        path: ${{github.workspace}}/build/CMakeFiles/*.log
+    if: failure()
+    with:
+      name: CMakeLogs_Configure
+      path: ${{github.workspace}}/build/CMakeFiles/*.log
 
     - name: Build the game
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build
+
+    - uses: actions/upload-artifact@v2
+    if: always()
+    with:
+      name: CMakeLogs_Build
+      path: ${{github.workspace}}/build/CMakeFiles/*.log
 
     - name: Test
       working-directory: ${{github.workspace}}/build
