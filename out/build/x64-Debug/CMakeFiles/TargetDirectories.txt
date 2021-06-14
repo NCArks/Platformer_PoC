@@ -1,6 +1,0 @@
-C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug/CMakeFiles/SomethingPlatform.dir
-C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug/CMakeFiles/glad.dir
-C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug/CMakeFiles/ALL_BUILD.dir
-C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug/CMakeFiles/ZERO_CHECK.dir
-C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug/libraries/glfw/CMakeFiles/ALL_BUILD.dir
-C:/Users/Player6/source/repos/SomethingPlatform/out/build/x64-Debug/libraries/glfw/src/CMakeFiles/glfw.dir
