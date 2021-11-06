@@ -1,20 +1,18 @@
 #include "player.h"
 # include <algorithm>
 
-#include <iostream>
-
 Player::Player() {
     _current_state = PlayerState::stand;
-    _walk_speed = .036f; //1.0f;
-    _jump_speed = .051f; //500.0f;
-    _gravity_constant = .005f; //10.0f;
-    _max_fall_speed = -.787f; //-100.0f;
-    _min_jump_speed = .0f; //10.f;
+    _walk_speed = 1;
+    _jump_speed = 1;
+    _gravity_constant = .16f;
+    _max_fall_speed = -25;
+    _min_jump_speed = .0f;
 
-    _posx = 3.4f;
-    _posy = 1.4f;
-    _half_width = 0.4f;
-    _half_height = 0.4f;
+    _posx = 109;
+    _posy = 50;
+    _half_width = 12;
+    _half_height = 12;
     _offsetx = 0;
     _offsety = 0;
     _speedx = 0;
@@ -27,10 +25,6 @@ Player::Player() {
     _on_ground = false;
     _was_at_ceiling = false;
     _at_ceiling = false;
-    //BoxCollider _collider;
-
-    //_scalex;
-    //_scaley;
 }
 
 void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time, Map map) {

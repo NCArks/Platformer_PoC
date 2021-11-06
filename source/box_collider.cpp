@@ -15,23 +15,23 @@ bool BoxCollider::overlaps(BoxCollider other) {
     return true;
 }
 
-float BoxCollider::getPosX() {
+int BoxCollider::getPosX() {
     return _posx;
 }
 
-float BoxCollider::getPosY() {
+int BoxCollider::getPosY() {
     return _posy;
 }
 
-float BoxCollider::getHalfWidth() {
+int BoxCollider::getHalfWidth() {
     return _half_width;
 }
 
-float BoxCollider::getHalfHeight() {
+int BoxCollider::getHalfHeight() {
     return _half_height;
 }
 
-void BoxCollider::setPos(float posx, float posy) {
+void BoxCollider::setPos(int posx, int posy) {
     _posx = posx;
     _posy = posy;
 }

@@ -8,6 +8,7 @@ set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
 set(SOURCES
     "${SRC_DIR}/box_collider.cpp"
     "${SRC_DIR}/display_elements.cpp"
+    "${SRC_DIR}/npc_goomba.cpp"
     "${SRC_DIR}/inputs.cpp"
     "${SRC_DIR}/logic_elements.cpp"
     "${SRC_DIR}/main.cpp"

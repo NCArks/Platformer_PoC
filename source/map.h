@@ -3,7 +3,9 @@
 
 #include <vector>
 
-enum TileType {
+#define TILE_SIZE 32
+
+enum class TileType {
     empty = 0,
     block,
     platform,
@@ -12,18 +14,12 @@ enum TileType {
     slope45b
 };
 
-struct f2loat {
-    float first;
-    float second;
-};
-
 class Map {
 private:
     int _width;
     int _height;
-    float _tile_size = 1;
-    float _posx = 0;
-    float _posy = 0;
+    int _posx = 0;
+    int _posy = 0;
     std::vector<TileType> _tiles;
 
 public:
@@ -34,19 +30,18 @@ public:
     const int getMapHeight() const;
 
     /*int GetMapTileAtPoint(float x, float y);*/
-    const int getMapTileXAtPoint(float x) const; //posYToTileX
-    const int getMapTileYAtPoint(float y) const; //posXToTileY
-    f2loat getMapTilePosition(int x, int y); //tileXYToPosXY
-    float getMapTileX(int x);
-    float getMapTileY(int y);
+    const int getMapTileXAtPoint(int x) const; //posYToTileX
+    const int getMapTileYAtPoint(int y) const; //posXToTileY
+    int getMapTileX(int x);
+    int getMapTileY(int y);
     TileType getTile(int x, int y) const;
     const bool isObstacle(int x, int y) const;
     const bool isGround(int x, int y) const;
     bool isOneWayPlatform(int x, int y);
     bool isEmpty(int x, int y) const;
-    float getTileSize() const;
-    const float getPosX() const;
-    const float getPosY() const;
+    int getTileSize() const;
+    const int getPosX() const;
+    const int getPosY() const;
 };
 
 #endif

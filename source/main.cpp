@@ -40,8 +40,11 @@ void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& c
                 }
             }
             inputs.getPressedKeys();
-            elements.getMap();
-            elements.getP1().PlayerUpdate(inputs.getPressedKeys(), float(frames_passed), elements.getMap());
+            //elements.getMap();
+            elements.getP1().PlayerUpdate(inputs.getPressedKeys(), frames_passed, elements.getMap());
+            for (int i = 0; i < elements.getEnnemiACount(); i++) {
+                elements.getEnnemiA(i).ennemiUpdate(frames_passed, elements.getMap());
+            }
         }
         else {
             std::this_thread::sleep_until(previous_time + ONE_LOGIC_FRAME);
@@ -56,7 +59,18 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     aspect_ratio = (float)width / (float)height;
 }
 
-int main(int, char**) {
+int main(int argc, char** argv) {
+    //if (true) {
+    //    LogicElements elts;
+    //    elts.getMap() = Map(10, 10, map_tiles);
+    //    elts.getP1().setPos(1.6f, 4.4f);
+    //    elts.getP1().setSpd(2.0f, -0.145f);
+    //    std::cout << "b:" << elts.getP1().getPosX() << " " << elts.getP1().getPosY() << std::endl;
+    //    elts.getP1().updatePhysics(1.0f, elts.getMap());
+    //    std::cout << "a:" << elts.getP1().getPosX() << " " << elts.getP1().getPosY() << std::endl;
+    //    return 0;
+    //}
+
     // Initialize GLFW
     if (!glfwInit()) {
         return 1;
@@ -155,11 +169,11 @@ int main(int, char**) {
 
             ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-            ImGui::SliderFloat(std::string("walk_spd").c_str(), &elements.getP1().getRefWalkSpd(), .0f, 1.0f);
-            ImGui::SliderFloat(std::string("jump_spd").c_str(), &elements.getP1().getRefJumpSpd(), .0f, 1.0f);
-            ImGui::SliderFloat(std::string("gravity").c_str(), &elements.getP1().getRefGravityConst(), .0f, 1.0f);
-            ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &elements.getP1().getRefMaxFallSpd(), -1.0f, .0f);
-            ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &elements.getP1().getRefMinJumpSpd(), .0f, 1.0f);
+            ImGui::SliderFloat(std::string("walk_spd").c_str(), &elements.getP1().getRefWalkSpd(), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("jump_spd").c_str(), &elements.getP1().getRefJumpSpd(), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("gravity").c_str(), &elements.getP1().getRefGravityConst(), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &elements.getP1().getRefMaxFallSpd(), -32.0f, .0f);
+            ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &elements.getP1().getRefMinJumpSpd(), .0f, 32.0f);
             ImGui::SliderFloat(std::string("camera_x").c_str(), &camera_x, 0.0f, 20.0f);
             ImGui::SliderFloat(std::string("zoom").c_str(), &zoom_level, 1.0f, 50.0f);
             ImGui::End();
@@ -167,28 +181,28 @@ int main(int, char**) {
 
         // Camera follows player
         if (scroll_right) {
-            if (elements.getP1().getPosX() - camera_x > zoom_level * .35f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() - zoom_level * .35f / aspect_ratio;
+            if (elements.getP1().getPosX() / TILE_SIZE - camera_x > zoom_level * .35f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() / TILE_SIZE - zoom_level * .35f / aspect_ratio;
             }
-            else if (elements.getP1().getPosX() - camera_x < -zoom_level * .65f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() + zoom_level * .35f / aspect_ratio;
+            else if (elements.getP1().getPosX() / TILE_SIZE - camera_x < -zoom_level * .65f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() / TILE_SIZE + zoom_level * .35f / aspect_ratio;
                 scroll_right = false;
             }
         }
         else {
-            if (elements.getP1().getPosX() - camera_x > zoom_level * .65f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() - zoom_level * .35f / aspect_ratio;
+            if (elements.getP1().getPosX() / TILE_SIZE - camera_x > zoom_level * .65f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() / TILE_SIZE - zoom_level * .35f / aspect_ratio;
                 scroll_right = true;
             }
-            else if (elements.getP1().getPosX() - camera_x < -zoom_level * .35f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() + zoom_level * .35f / aspect_ratio;
+            else if (elements.getP1().getPosX() / TILE_SIZE - camera_x < -zoom_level * .35f / aspect_ratio) {
+                camera_x = elements.getP1().getPosX() / TILE_SIZE + zoom_level * .35f / aspect_ratio;
             }
         }
-        if (elements.getP1().getPosY() > zoom_level * .95f) {
-            zoom_level = elements.getP1().getPosY() / .95f;
+        if (elements.getP1().getPosY() / TILE_SIZE > zoom_level * .95f) {
+            zoom_level = elements.getP1().getPosY() / TILE_SIZE / .95f;
         }
-        else if (elements.getP1().getPosY() < -zoom_level * .95f) {
-            zoom_level = -elements.getP1().getPosY() / .95f;
+        else if (elements.getP1().getPosY() / TILE_SIZE < -zoom_level * .95f) {
+            zoom_level = -elements.getP1().getPosY() / TILE_SIZE / .95f;
         }
 
         // Draw map tiles
@@ -199,17 +213,17 @@ int main(int, char**) {
         for (int y = 0; y < elements.getMap().getMapHeight(); y++) {
             for (int x = 0; x < elements.getMap().getMapHeight(); x++) {
                 if (elements.getMap().isObstacle(x, y)) {
-                    mapTile.setU("pos", elements.getMap().getMapTileX(x), elements.getMap().getMapTileY(y));
+                    mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.8f, 0.8f, 0.8f);
                     display.getMapDisplay().bindDrawTile();
                 }
                 if (elements.getMap().getTile(x, y) == TileType::slope45d) {
-                    mapTile.setU("pos", elements.getMap().getMapTileX(x), elements.getMap().getMapTileY(y));
+                    mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.8f, 0.1f, 0.8f);
                     display.getMapDisplay().bindDrawDTile();
                 }
                 if (elements.getMap().getTile(x, y) == TileType::slope45b) {
-                    mapTile.setU("pos", elements.getMap().getMapTileX(x), elements.getMap().getMapTileY(y));
+                    mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.1f, 0.8f, 0.8f);
                     display.getMapDisplay().bindDrawBTile();
                 }
@@ -219,11 +233,22 @@ int main(int, char**) {
         // Draw player
         playerIcon.use();
         playerIcon.setU("aspect_ratio", aspect_ratio);
-        playerIcon.setU("pos", elements.getP1().getPosX(), elements.getP1().getPosY());
+        playerIcon.setU("pos", elements.getP1().getPosX() / TILE_SIZE, elements.getP1().getPosY() / TILE_SIZE);
         playerIcon.setU("zoom", 1 / zoom_level);
         playerIcon.setU("camera_x", camera_x);
         //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
         display.getPd1().bindDraw();
+
+        // Draw ennemies A
+        for (int i = 0; i < elements.getEnnemiACount(); i++) {
+            playerIcon.use();
+            playerIcon.setU("aspect_ratio", aspect_ratio);
+            playerIcon.setU("pos", elements.getEnnemiA(i).getPosX() / TILE_SIZE, elements.getEnnemiA(i).getPosY() / TILE_SIZE);
+            playerIcon.setU("zoom", 1 / zoom_level);
+            playerIcon.setU("camera_x", camera_x);
+            //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
+            display.getPd1().bindDraw();
+        }
 
         // Draw ImGui elements
         ImGui::Render();

@@ -4,14 +4,14 @@
 #include "map.h"
 
 std::vector<TileType> map_tiles = {
-    empty, empty, block, slope45b, empty, empty, block, empty, block, empty,
-    block, empty, empty, empty, empty, empty, empty, empty, empty, block,
-    empty, empty, empty, block, block, empty, empty, empty, empty, empty,
-    empty, slope45d, empty, empty, slope45d, block, empty, empty, block, block,
-    empty, empty, empty, empty, empty, empty, block, empty, block, empty,
-    empty, empty, empty, empty, empty, empty, empty, empty, block, block,
-    empty, empty, empty, empty, empty, empty, empty, empty, block, empty,
-    empty, empty, empty, empty, empty, empty, empty, empty, block, block,
-    empty, empty, empty, empty, empty, empty, empty, empty, block, empty,
-    block, empty, empty, empty, empty, empty, empty, empty, block, block,
+    TileType::empty, TileType::empty, TileType::block, TileType::slope45b, TileType::empty, TileType::empty, TileType::block, TileType::empty, TileType::block, TileType::empty,
+    TileType::block, TileType::empty, TileType::slope45b, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block,
+    TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty,
+    TileType::empty, TileType::slope45d, TileType::empty, TileType::empty, TileType::slope45d, TileType::block, TileType::empty, TileType::empty, TileType::block, TileType::block,
+    TileType::empty, TileType::empty, TileType::slope45d, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::empty, TileType::block, TileType::empty,
+    TileType::empty, TileType::empty, TileType::empty, TileType::slope45d, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::block,
+    TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::slope45d, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::empty,
+    TileType::empty, TileType::empty, TileType::slope45b, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::block,
+    TileType::empty, TileType::slope45b, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::empty,
+    TileType::block, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::block,
 };
