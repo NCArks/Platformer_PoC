@@ -1,5 +1,7 @@
 #include "map.h"
 
+#include <cmath>
+
 Map::Map() : 
     _width(1),
     _height(1),
@@ -19,11 +21,11 @@ const int Map::getMapHeight() const {
 }
 
 const int Map::getMapTileXAtPoint(int x) const { //posYToTileX
-    return floor(float(x - _posx) / TILE_SIZE);
+    return std::floor(float(x - _posx) / TILE_SIZE);
 }
 
 const int Map::getMapTileYAtPoint(int y) const { //posXToTileY
-    return floor(float(y - _posy) / TILE_SIZE);
+    return std::floor(float(y - _posy) / TILE_SIZE);
 }
 
 int Map::getMapTileX(int x) {
