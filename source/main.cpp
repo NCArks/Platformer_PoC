@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
     glfwSetKeyCallback(window, inputs.key_callback);
 
     // Initialize application clock
-    auto clock = std::chrono::high_resolution_clock();
+    std::chrono::steady_clock clock = std::chrono::steady_clock();
 
     // Start game logic thread
     std::thread t1(logic, std::ref(elements), std::ref(inputs), std::ref(clock));
