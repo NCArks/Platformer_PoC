@@ -7,7 +7,7 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-  Setup_CMake :
+  Setup_CMake_and_Compile :
   # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
@@ -56,6 +56,7 @@ jobs:
 
   Static_Analysis :
     # Using CPP Check on Linux (will have to tinker for Windows)
+      needs: Setup_CMake_and_Compile
       runs-on: ${{ matrix.os }}
       strategy:
         fail-fast: false
