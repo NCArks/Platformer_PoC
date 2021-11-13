@@ -2,6 +2,9 @@
 #define MAP_H
 
 #include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 #define TILE_SIZE 32
 
@@ -42,6 +45,8 @@ public:
     int getTileSize() const;
     const int getPosX() const;
     const int getPosY() const;
+
+    void loadMap(std::string filename);
 };
 
 #endif

@@ -1,4 +1,4 @@
-#include "map.h"
+#include "Model/map.h"
 
 #include <cmath>
 
@@ -21,11 +21,11 @@ const int Map::getMapHeight() const {
 }
 
 const int Map::getMapTileXAtPoint(int x) const { //posYToTileX
-    return std::floor(float(x - _posx) / TILE_SIZE);
+    return (int) std::floor(float(x - _posx) / TILE_SIZE);
 }
 
 const int Map::getMapTileYAtPoint(int y) const { //posXToTileY
-    return std::floor(float(y - _posy) / TILE_SIZE);
+    return (int) std::floor(float(y - _posy) / TILE_SIZE);
 }
 
 int Map::getMapTileX(int x) {
@@ -86,4 +86,53 @@ const int Map::getPosX() const {
 
 const int Map::getPosY() const {
     return _posy;
+}
+
+void Map::loadMap(std::string filename)
+{
+    std::ifstream mapfile;
+    std::string line;
+    std::vector<TileType> newtiles;
+
+    _width = 10;
+    _height = 10;
+
+    mapfile.open(filename, std::ios::in);
+
+    if (mapfile.is_open())
+    {
+        while (std::getline(mapfile, line))
+        {
+            if (line == "EMPTY")
+            {
+                newtiles.push_back(TileType::empty);
+            }
+            else if (line == "BLOCK")
+            {
+                newtiles.push_back(TileType::block);
+            }
+            else if (line == "SLOPE45D")
+            {
+                newtiles.push_back(TileType::slope45d);
+            }
+            else if (line == "SLOPE45B")
+            {
+                newtiles.push_back(TileType::slope45b);
+            }
+            else
+            {
+                newtiles.push_back(TileType::empty);
+            }
+        }
+
+        _tiles.clear();
+        _tiles = newtiles;
+
+        mapfile.close();
+    }
+    else
+    {
+        std::cout << "ERROR loadmap : " << filename << std::endl;
+    }
+
 }

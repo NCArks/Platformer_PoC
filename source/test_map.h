@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "map.h"
+#include "Model/map.h"
 
 std::vector<TileType> map_tiles = {
     TileType::empty, TileType::empty, TileType::block, TileType::slope45b, TileType::empty, TileType::empty, TileType::block, TileType::empty, TileType::block, TileType::empty,

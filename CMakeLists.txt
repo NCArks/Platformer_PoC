@@ -14,7 +14,7 @@ set(SOURCES
     "${SRC_DIR}/inputs.cpp"
     "${SRC_DIR}/logic_elements.cpp"
     "${SRC_DIR}/main.cpp"
-    "${SRC_DIR}/map.cpp"
+    "${SRC_DIR}/Model/map.cpp"
     "${SRC_DIR}/map_display.cpp"
     "${SRC_DIR}/movable.cpp"
     "${SRC_DIR}/player.cpp"
@@ -32,7 +32,7 @@ set(IMGUI_SOURCES
 )
 
 # Executable definition and properties
-add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} "source/Engine/map_loader.h" "source/Engine/map_loader.cpp")
+add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
 
@@ -55,7 +55,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE "GLFW_INCLUDE_NONE")
 
 # glad
 set(GLAD_DIR "${LIB_DIR}/glad")
-add_library("glad" "${GLAD_DIR}/src/glad.c" "source/Engine/map_loader.h" "source/Engine/map_loader.cpp")
+add_library("glad" "${GLAD_DIR}/src/glad.c")
 add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_include_directories("glad" PRIVATE "${GLAD_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLAD_DIR}/include")
@@ -64,6 +64,8 @@ target_link_libraries(${PROJECT_NAME} "glad" "${CMAKE_DL_LIBS}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shaders/fragment.glsl ${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders/fragment.glsl COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shaders/vertex.glsl ${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders/ COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shaders/tile.glsl ${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders/ COPYONLY)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Res/map1.txt ${CMAKE_CURRENT_BINARY_DIR}/Debug/Res/map1.txt COPYONLY)
 
 # imgui
 target_include_directories(${PROJECT_NAME} PRIVATE "imgui")

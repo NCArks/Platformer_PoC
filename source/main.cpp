@@ -11,7 +11,7 @@
 #include "inputs.h"
 #include "logic_elements.h"
 #include "shader.h"
-#include "map.h"
+#include "Model/map.h"
 
 #include "test_map.h"
 
@@ -22,7 +22,10 @@ const unsigned int SCR_HEIGHT = 600;
 
 // Game logic thread's main function
 void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& clock) {
-    elements.getMap() = Map(10, 10, map_tiles);
+    Map map1 = Map();
+    map1.loadMap("Res/map1.txt");
+    elements.getMap() = map1;
+ //   elements.getMap() = Map(10, 10, map_tiles);
     auto previous_time = clock.now();
     while (!elements.getShouldClose()) {
         auto current_time = clock.now();

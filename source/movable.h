@@ -2,7 +2,7 @@
 #define MOVABLE_H
 
 #include "box_collider.h"
-#include "map.h"
+#include "Model/map.h"
 
 class Movable : public BoxCollider {
 public:
