@@ -32,7 +32,7 @@ set(IMGUI_SOURCES
 )
 
 # Executable definition and properties
-add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} "source/Engine/map_loader.h" "source/Engine/map_loader.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
 
@@ -55,7 +55,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE "GLFW_INCLUDE_NONE")
 
 # glad
 set(GLAD_DIR "${LIB_DIR}/glad")
-add_library("glad" "${GLAD_DIR}/src/glad.c")
+add_library("glad" "${GLAD_DIR}/src/glad.c" "source/Engine/map_loader.h" "source/Engine/map_loader.cpp")
 add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_include_directories("glad" PRIVATE "${GLAD_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLAD_DIR}/include")
