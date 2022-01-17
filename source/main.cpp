@@ -22,7 +22,10 @@ const unsigned int SCR_HEIGHT = 600;
 
 // Game logic thread's main function
 void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& clock) {
-    elements.getMap() = Map(10, 10, map_tiles);
+    std::vector<TileType> map_t = std::vector<TileType>();
+    map_t.reserve(20000 * 200);
+    fillMapTiles(map_t, 20000*200);
+    elements.getMap() = Map(20000, 200, map_t);
     auto previous_time = clock.now();
     while (!elements.getShouldClose()) {
         auto current_time = clock.now();
@@ -53,29 +56,22 @@ void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& c
 }
 
 float aspect_ratio = 800.0f / 600.0f;
+int window_height = 800;
+int window_width = 600;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
     aspect_ratio = (float)width / (float)height;
+    window_height = width;
+    window_width = height;
 }
 
 int main(int argc, char** argv) {
-    //if (true) {
-    //    LogicElements elts;
-    //    elts.getMap() = Map(10, 10, map_tiles);
-    //    elts.getP1().setPos(1.6f, 4.4f);
-    //    elts.getP1().setSpd(2.0f, -0.145f);
-    //    std::cout << "b:" << elts.getP1().getPosX() << " " << elts.getP1().getPosY() << std::endl;
-    //    elts.getP1().updatePhysics(1.0f, elts.getMap());
-    //    std::cout << "a:" << elts.getP1().getPosX() << " " << elts.getP1().getPosY() << std::endl;
-    //    return 0;
-    //}
 
     // Initialize GLFW
     if (!glfwInit()) {
         return 1;
     }
-    const char* glsl_version = "#version 130";
 
     // Create application window
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Phantasy", NULL, NULL);
@@ -205,13 +201,24 @@ int main(int argc, char** argv) {
             zoom_level = -elements.getP1().getPosY() / TILE_SIZE / .95f;
         }
 
+        //// Compute displayed space area
+        int left_x = camera_x - zoom_level;
+        int right_x = camera_x + zoom_level + 1;
+        int bottom_y = 0;
+        int up_y = 20;
+
+        int y_min = max(bottom_y, 0);
+        int y_max = min(up_y, 20);
+        int x_min = max(left_x, 0);
+        int x_max = min(right_x, elements.getMap().getMapWidth());
+
         // Draw map tiles
         mapTile.use();
         mapTile.setU("zoom", 1 / zoom_level);
         mapTile.setU("camera_x", camera_x);
         mapTile.setU("aspect_ratio", aspect_ratio);
-        for (int y = 0; y < elements.getMap().getMapHeight(); y++) {
-            for (int x = 0; x < elements.getMap().getMapHeight(); x++) {
+        for (int y = y_min; y < y_max; y++) {
+            for (int x = x_min; x < x_max; x++) {
                 if (elements.getMap().isObstacle(x, y)) {
                     mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.8f, 0.8f, 0.8f);

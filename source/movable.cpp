@@ -100,29 +100,29 @@ void Movable::updatePhysics(const int delta_time, const Map map) {
 }
 
 bool Movable::collideTileRight(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, Map map) {
-    int right_tile_x = map.getMapTileXAtPoint(pos_x + half_width);
-    int bottom_tile_y = map.getMapTileXAtPoint(pos_y - half_height);
-    int top_tile_y = map.getMapTileXAtPoint(pos_y + half_height - 1);
-    for (int y = bottom_tile_y; y <= top_tile_y; y++) {
-        TileType tile = map.getTile(right_tile_x, y);
-        int local_right_x = pos_x + half_width - (right_tile_x * TILE_SIZE);
-        switch (tile) {
-        case TileType::empty:
-            break;
-        case TileType::platform:
-            break;
-        case TileType::slope45d:
-            break;
-        case TileType::slope45b:
-            if (local_right_x <= 0) {
-                return true;
-            }
-            break;
-        case TileType::block:
-            return true;
-            break;
-        }
-    }
+    //int right_tile_x = map.getMapTileXAtPoint(pos_x + half_width);
+    //int bottom_tile_y = map.getMapTileXAtPoint(pos_y - half_height);
+    //int top_tile_y = map.getMapTileXAtPoint(pos_y + half_height - 1);
+    //for (int y = bottom_tile_y; y <= top_tile_y; y++) {
+    //    TileType tile = map.getTile(right_tile_x, y);
+    //    int local_right_x = pos_x + half_width - (right_tile_x * TILE_SIZE);
+    //    switch (tile) {
+    //    case TileType::empty:
+    //        break;
+    //    case TileType::platform:
+    //        break;
+    //    case TileType::slope45d:
+    //        break;
+    //    case TileType::slope45b:
+    //        if (local_right_x <= 0) {
+    //            return true;
+    //        }
+    //        break;
+    //    case TileType::block:
+    //        return true;
+    //        break;
+    //    }
+    //}
     return false;
 }
 
@@ -167,16 +167,16 @@ bool Movable::collideTileBottom(int pos_x, int pos_y, int half_width, int half_h
             break;
         case TileType::platform:
             break;
-        case TileType::slope45d:
-            if (local_bottom_y < local_right_x) {
-                return true;
-            }
-            break;
-        case TileType::slope45b:
-            if (local_bottom_y < TILE_SIZE - local_left_x) {
-                return true;
-            }
-            break;
+        //case TileType::slope45d:
+        //    if (local_bottom_y < local_right_x) {
+        //        return true;
+        //    }
+        //    break;
+        //case TileType::slope45b:
+        //    if (local_bottom_y < TILE_SIZE - local_left_x) {
+        //        return true;
+        //    }
+        //    break;
         case TileType::block:
             return true;
             break;
