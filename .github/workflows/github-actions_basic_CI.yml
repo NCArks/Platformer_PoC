@@ -1,4 +1,4 @@
-name: Static_Analyzed_Compilation
+name: Minimum_Compilation
 
 on:
   push:
