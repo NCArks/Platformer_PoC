@@ -17,6 +17,10 @@ const NpcGoomba& LogicElements::getEnnemiA(int const index) const{
     return _ennemies_a[index];
 }
 
+void LogicElements::setMap(Map const map) {
+    _map = map;
+}
+
 const Map& LogicElements::getMap() const {
     return _map;
 }

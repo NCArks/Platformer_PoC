@@ -17,6 +17,7 @@ public:
     const Player& getP1() const;
     int getEnnemiACount() const;
     const NpcGoomba& getEnnemiA(int const index) const;
+    void setMap(Map const map);
     const Map& getMap() const;
     void setShouldClose();
     bool getShouldClose() const;
