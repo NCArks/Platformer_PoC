@@ -49,7 +49,7 @@ jobs:
           # Ruleset file that will determine what checks will be run
           ruleset: NativeRecommendedRules.ruleset
 
-      - name: Configure CMake
+      - name: List Build directory
         run: dir ${{ env.build }} /s /b
 
       # Upload SARIF file to GitHub Code Scanning Alerts
