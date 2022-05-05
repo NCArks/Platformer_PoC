@@ -122,23 +122,23 @@ void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time
     updatePhysics(delta_time, map);
 }
 
-const float Player::getPosX() const {
+float Player::getPosX() const {
     return _old_posx;
 }
 
-const float Player::getPosY() const {
+float Player::getPosY() const {
     return _old_posy;
 }
 
-const float Player::getSpdX() const {
+float Player::getSpdX() const {
     return _speedx;
 }
 
-const float Player::getSpdY() const {
+float Player::getSpdY() const {
     return _speedy;
 }
 
-const std::string Player::getState() const {
+std::string Player::getState() const {
     if (_current_state == PlayerState::stand) {
         return std::string("stand");
     }

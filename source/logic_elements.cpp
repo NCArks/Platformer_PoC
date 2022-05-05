@@ -5,7 +5,7 @@ LogicElements::LogicElements() {
 }
 LogicElements::~LogicElements() = default;
 
-Player& LogicElements::getP1() {
+const Player& LogicElements::getP1() const {
     return _p1;
 }
 
@@ -13,11 +13,11 @@ int LogicElements::getEnnemiACount() const {
     return _ennemies_a.size();
 }
 
-NpcGoomba& LogicElements::getEnnemiA(int index) {
+const NpcGoomba& LogicElements::getEnnemiA(int const index) const{
     return _ennemies_a[index];
 }
 
-Map& LogicElements::getMap() {
+const Map& LogicElements::getMap() const {
     return _map;
 }
 
@@ -25,6 +25,6 @@ void LogicElements::setShouldClose() {
     _shouldClose = true;
 }
 
-bool LogicElements::getShouldClose() {
+bool LogicElements::getShouldClose() const {
     return _shouldClose;
 }

@@ -5,7 +5,7 @@ class Player;
 
 class PlayerDisplay {
 public:
-    PlayerDisplay(Player& _p1);
+    PlayerDisplay(const Player& _p1);
     ~PlayerDisplay();
     void bindDraw();
 private:

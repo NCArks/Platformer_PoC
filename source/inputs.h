@@ -1,11 +1,12 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-struct GLFWwindow;
 #include <queue>
 #include <unordered_set>
 
 #include <iostream>
+
+struct GLFWwindow;
 
 struct i2nt {
     int first;

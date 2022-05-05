@@ -22,11 +22,11 @@ private:
 public:
     Player();
     void PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time, Map map);
-    const float getPosX() const;
-    const float getPosY() const;
-    const float getSpdX() const;
-    const float getSpdY() const;
-    const std::string getState() const;
+    float getPosX() const;
+    float getPosY() const;
+    float getSpdX() const;
+    float getSpdY() const;
+    std::string getState() const;
 
     float& getRefJumpSpd();
     float& getRefWalkSpd();

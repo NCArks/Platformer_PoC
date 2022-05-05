@@ -2,7 +2,7 @@
 
 #include "player_display.h"
 
-DisplayElements::DisplayElements(LogicElements logic) :
+DisplayElements::DisplayElements(LogicElements const logic) :
     _pd1(logic.getP1()),
     _mapd(logic.getMap())
 {
@@ -10,10 +10,10 @@ DisplayElements::DisplayElements(LogicElements logic) :
 
 DisplayElements::~DisplayElements() = default;
 
-PlayerDisplay& DisplayElements::getPd1() {
+const PlayerDisplay& DisplayElements::getPd1() const {
     return _pd1;
 }
 
-MapDisplay& DisplayElements::getMapDisplay() {
+const MapDisplay& DisplayElements::getMapDisplay() const {
     return _mapd;
 }

@@ -11,10 +11,10 @@ private:
     MapDisplay _mapd;
 
 public:
-    DisplayElements(LogicElements logic);
+    DisplayElements(LogicElements const logic);
     ~DisplayElements();
-    PlayerDisplay& getPd1();
-    MapDisplay& getMapDisplay();
+    const PlayerDisplay& getPd1() const;
+    const MapDisplay& getMapDisplay() const;
 };
 
 #endif

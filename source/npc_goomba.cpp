@@ -71,10 +71,10 @@ void NpcGoomba::ennemiUpdate(float delta_time, Map map) {
     updatePhysics(delta_time, map);
 }
 
-const float NpcGoomba::getPosX() const {
+float NpcGoomba::getPosX() const {
     return _posx;
 }
 
-const float NpcGoomba::getPosY() const {
+float NpcGoomba::getPosY() const {
     return _posy;
 }

@@ -14,12 +14,12 @@ private:
 public:
     LogicElements();
     ~LogicElements();
-    Player& getP1();
+    const Player& getP1() const;
     int getEnnemiACount() const;
-    NpcGoomba& getEnnemiA(int index);
-    Map& getMap();
+    const NpcGoomba& getEnnemiA(int const index) const;
+    const Map& getMap() const;
     void setShouldClose();
-    bool getShouldClose();
+    bool getShouldClose() const;
 };
 
 #endif

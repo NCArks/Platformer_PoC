@@ -11,13 +11,13 @@ protected:
 public:
     BoxCollider();
     ~BoxCollider();
-    bool overlaps(BoxCollider other);
-    int getPosX();
-    int getPosY();
-    int getHalfWidth();
-    int getHalfHeight();
+    bool overlaps(BoxCollider const other);
+    int getPosX() const;
+    int getPosY() const;
+    int getHalfWidth() const; 
+    int getHalfHeight() const;
 
-    void setPos(int posx, int posy);
+    void setPos(int const posx, int const posy);
 
     class MovingObject;
 };
