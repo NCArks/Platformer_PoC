@@ -9,7 +9,7 @@ public:
     ~PlayerDisplay();
     void bindDraw();
 private:
-    Player* _player;
+    const Player* _player;
     unsigned int _vao;
     unsigned int _vbo;
     const float _vertices[9] = {
