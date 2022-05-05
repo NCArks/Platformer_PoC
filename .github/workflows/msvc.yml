@@ -50,7 +50,7 @@ jobs:
           ruleset: NativeRecommendedRules.ruleset
 
       - name: Configure CMake
-        run: dir /s /b
+        run: dir ${{ env.build }} /s /b
 
       # Upload SARIF file to GitHub Code Scanning Alerts
       - name: Upload SARIF to GitHub
