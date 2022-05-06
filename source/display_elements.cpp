@@ -1,7 +1,5 @@
 #include "display_elements.h"
 
-#include "player_display.h"
-
 DisplayElements::DisplayElements(const LogicElements* logic) :
     p_pd1(new PlayerDisplay(logic->getP1())),
     p_mapd(new MapDisplay(logic->getMap()))

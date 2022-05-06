@@ -1,5 +1,4 @@
 #include "player.h"
-# include <algorithm>
 
 Player::Player() {
     _current_state = PlayerState::stand;

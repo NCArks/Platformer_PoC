@@ -1,6 +1,9 @@
 #ifndef MOVABLE_H
 #define MOVABLE_H
 
+#include <iostream>
+#include <algorithm>
+
 #include "box_collider.h"
 #include "map.h"
 

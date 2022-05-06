@@ -1,8 +1,4 @@
 #include "inputs.h"
-
-#include <queue>
-#include <string>
-
 std::queue<i2nt> Inputs::_input_queue = std::queue<i2nt>();
 std::unordered_set<int> Inputs::_pressed_keys = std::unordered_set<int>();
 std::string Inputs::_pressed_str = "";

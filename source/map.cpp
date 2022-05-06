@@ -1,7 +1,5 @@
 #include "map.h"
 
-#include <cmath>
-
 Map::Map() : 
     _width(1),
     _height(1),

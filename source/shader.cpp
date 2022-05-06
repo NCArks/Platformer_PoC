@@ -1,8 +1,4 @@
 #include "shader.h"
-#include <glad/glad.h>
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
 void Shader::initialize(const char* vertexPath, const char* fragmentPath) {
     std::string vertexCode;

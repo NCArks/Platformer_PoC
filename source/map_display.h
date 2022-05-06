@@ -1,6 +1,8 @@
 #ifndef MAP_DISPLAY_H
 #define MAP_DISPLAY_H
 
+#include <glad/glad.h>
+
 class Map;
 
 class MapDisplay {

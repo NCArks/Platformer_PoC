@@ -3,6 +3,11 @@
 
 #include <string>
 
+#include <glad/glad.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+
 class Shader {
 public:
     unsigned int _id;
