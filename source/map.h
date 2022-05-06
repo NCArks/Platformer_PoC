@@ -16,8 +16,8 @@ enum class TileType {
 
 class Map {
 private:
-    int _width;
-    int _height;
+    int _width = 0;
+    int _height = 0;
     int _posx = 0;
     int _posy = 0;
     std::vector<TileType> _tiles;

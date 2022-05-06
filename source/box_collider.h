@@ -3,10 +3,10 @@
 
 class BoxCollider {
 protected:
-    int _posx;
-    int _posy;
-    int _half_width;
-    int _half_height;
+    int _posx = 0;
+    int _posy = 0;
+    int _half_width = 0;
+    int _half_height = 0;
 
 public:
     BoxCollider();
