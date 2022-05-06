@@ -170,3 +170,50 @@ float& Player::getRefMaxFallSpd() {
 float& Player::getRefMinJumpSpd() {
     return _min_jump_speed;
 }
+
+/*
+float Player::getRefJumpSpd() const {
+    return _jump_speed;
+}
+
+float Player::getRefWalkSpd() const {
+    return _walk_speed;
+}
+
+float Player::getRefGravityConst() const {
+    return _gravity_constant;
+}
+
+float Player::getRefMaxFallSpd() const {
+    return _max_fall_speed;
+}
+
+float Player::getRefMinJumpSpd() const {
+    return _min_jump_speed;
+}
+*/
+
+void Player::setRefJumpSpd(const float f)
+{
+    _jump_speed = f;
+}
+
+void Player::setRefWalkSpd(const float f)
+{
+    _walk_speed = f;
+}
+
+void Player::setRefGravityConst(const float f)
+{
+    _gravity_constant = f;
+}
+
+void Player::setRefMaxFallSpd(const float f)
+{
+    _max_fall_speed = f;
+}
+
+void Player::setRefMinJumpSpd(const float f)
+{
+    _min_jump_speed = f;
+}
