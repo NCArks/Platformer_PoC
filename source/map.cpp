@@ -7,7 +7,7 @@ Map::Map() :
     _height(1),
     _tiles({ TileType::empty }){}
 
-Map::Map(int width, int height, std::vector<TileType> tiles) : 
+Map::Map(int const width, int const height, std::vector<TileType> tiles) : 
     _width(width),
     _height(height),
     _tiles(std::move(tiles)) {}

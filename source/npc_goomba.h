@@ -13,7 +13,7 @@ enum class NpcGoombaState {
 class NpcGoomba : public NpcMovable {
 public:
     NpcGoomba();
-    void ennemiUpdate(float delta_time, Map map) override;
+    void ennemiUpdate(const float delta_time, const Map map) override;
     float getPosX() const override;
     float getPosY() const override;
 
