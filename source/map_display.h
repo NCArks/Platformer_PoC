@@ -36,7 +36,7 @@ private:
         1.0f, 1.0f, 0.0f,
     };
 public:
-    MapDisplay(const Map& map);
+    MapDisplay(const Map* map);
     ~MapDisplay();
     void bindDrawTile();
     void bindDrawBTile();
