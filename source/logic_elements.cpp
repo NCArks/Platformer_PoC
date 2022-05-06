@@ -1,28 +1,47 @@
 #include "logic_elements.h"
 
 LogicElements::LogicElements() {
-    _ennemies_a.push_back(NpcGoomba());
+    p_p1 = new Player();
 }
-LogicElements::~LogicElements() = default;
+LogicElements::~LogicElements() {
+    for (int i = 0; i < _ennemies_a.size(); i++) {
+        delete _ennemies_a[i];
+    }
+    _ennemies_a.clear();
+    delete p_p1;
+};
 
-const Player& LogicElements::getP1() const {
-    return _p1;
+Player* LogicElements::getP1() const {
+    return p_p1;
 }
 
 int LogicElements::getEnnemiACount() const {
     return _ennemies_a.size();
 }
 
-const NpcGoomba& LogicElements::getEnnemiA(int const index) const{
-    return _ennemies_a[index];
+void LogicElements::setEnnemiA(int const number)
+{
+    for (int i = 0; i < number; i++) {
+        _ennemies_a.push_back(new NpcGoomba());
+    }
 }
 
-void LogicElements::setMap(Map const map) {
-    _map = map;
+NpcGoomba* LogicElements::getEnnemiA(int const index) const{
+    if (_ennemies_a.size() > index) {
+        return _ennemies_a[index];
+    }
+    else {
+        return nullptr;
+    }
+
 }
 
-const Map& LogicElements::getMap() const {
-    return _map;
+void LogicElements::setMap(Map* const map) {
+    p_map = map;
+}
+
+Map* LogicElements::getMap() const {
+    return p_map;
 }
 
 void LogicElements::setShouldClose() {

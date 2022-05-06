@@ -2,8 +2,8 @@
 #include "player_display.h"
 #include "player.h"
 
-PlayerDisplay::PlayerDisplay(const Player& _p1) :
-    _player(&_p1) {
+PlayerDisplay::PlayerDisplay(const Player* _p1) :
+    _player(_p1) {
     glGenVertexArrays(1, &_vao);
     glGenBuffers(1, &_vbo);
     glBindVertexArray(_vao);

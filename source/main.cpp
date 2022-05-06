@@ -21,10 +21,10 @@ const unsigned int SCR_HEIGHT = 600;
 #define ONE_LOGIC_FRAME std::chrono::microseconds(16666)
 
 // Game logic thread's main function
-void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& clock) {
-    elements.setMap(Map(10, 10, map_tiles));
+void logic(LogicElements* elements, Inputs& inputs, std::chrono::steady_clock& clock) {
+    Map m = *elements->getMap();
     auto previous_time = clock.now();
-    while (!elements.getShouldClose()) {
+    while (!elements->getShouldClose()) {
         auto current_time = clock.now();
         auto delta_time = current_time - previous_time;
         //std::cout << "elapsed time: " << std::chrono::duration_cast<std::chrono::microseconds>(delta_time).count() << std::endl;
@@ -41,15 +41,13 @@ void logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& c
             }
             inputs.getPressedKeys();
             //elements.getMap();
-            Player p = elements.getP1();
-            Map m = elements.getMap();
 
-            p.PlayerUpdate(inputs.getPressedKeys(), frames_passed, m);
+            elements->getP1()->PlayerUpdate(inputs.getPressedKeys(), frames_passed, m);
 
-            NpcGoomba g;
-            for (int i = 0; i < elements.getEnnemiACount(); i++) {
-                g = elements.getEnnemiA(i);
-                g.ennemiUpdate(frames_passed,m);
+            NpcGoomba* g;
+            for (int i = 0; i < elements->getEnnemiACount(); i++) {
+                g = elements->getEnnemiA(i);
+                g->ennemiUpdate(frames_passed,m);
             }
         }
         else {
@@ -108,9 +106,14 @@ int main(int argc, char** argv) {
     ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
     // Create game elements
-    LogicElements elements;
+    LogicElements* elements = new LogicElements();;
+    elements->setEnnemiA(1);
+    Map* m = new Map(10, 10, map_tiles);
+    elements->setMap(m);
     DisplayElements display(elements);
+    Player* p = elements->getP1();
     //PlayerDisplay pd1(elements.getP1());
+    NpcGoomba* goomba = elements->getEnnemiA(1);
 
     // Load game shaders
     Shader playerIcon;
@@ -126,7 +129,7 @@ int main(int argc, char** argv) {
     std::chrono::steady_clock clock = std::chrono::steady_clock();
 
     // Start game logic thread
-    std::thread t1(logic, std::ref(elements), std::ref(inputs), std::ref(clock));
+    std::thread t1(logic, elements, std::ref(inputs), std::ref(clock));
 
     // Some display variables
     float zoom_level = 1.0f;
@@ -154,7 +157,7 @@ int main(int argc, char** argv) {
         ImGui::NewFrame();
         //ImGui::ShowDemoWindow();
         {
-            Player p = elements.getP1();
+            
 
             ImGui::Begin("debug info");
 
@@ -168,20 +171,20 @@ int main(int argc, char** argv) {
 
             ImGui::Text(("Keys: " + inputs.getPressedStr()).c_str());
 
-            ImGui::Text(("state: " + elements.getP1().getState()).c_str());
+            ImGui::Text(("state: " + p->getState()).c_str());
 
-            ImGui::Text(("pos_x: " + std::to_string(elements.getP1().getPosX())).c_str());
-            ImGui::Text(("pos_y: " + std::to_string(elements.getP1().getPosY())).c_str());
-            ImGui::Text(("spd_x: " + std::to_string(elements.getP1().getSpdX())).c_str());
-            ImGui::Text(("spd_y: " + std::to_string(elements.getP1().getSpdY())).c_str());
+            ImGui::Text(("pos_x: " + std::to_string(p->getPosX())).c_str());
+            ImGui::Text(("pos_y: " + std::to_string(p->getPosY())).c_str());
+            ImGui::Text(("spd_x: " + std::to_string(p->getSpdX())).c_str());
+            ImGui::Text(("spd_y: " + std::to_string(p->getSpdY())).c_str());
 
             ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-            ImGui::SliderFloat(std::string("walk_spd").c_str(), &p.getRefWalkSpd(), .0f, 32.0f);
-            ImGui::SliderFloat(std::string("jump_spd").c_str(), &p.getRefJumpSpd(), .0f, 32.0f);
-            ImGui::SliderFloat(std::string("gravity").c_str(), &p.getRefGravityConst(), .0f, 32.0f);
-            ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &p.getRefMaxFallSpd(), -32.0f, .0f);
-            ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &p.getRefMinJumpSpd(), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("walk_spd").c_str(), &(p->getRefWalkSpd()), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("jump_spd").c_str(), &(p->getRefJumpSpd()), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("gravity").c_str(), &(p->getRefGravityConst()), .0f, 32.0f);
+            ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &(p->getRefMaxFallSpd()), -32.0f, .0f);
+            ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &(p->getRefMinJumpSpd()), .0f, 32.0f);
             ImGui::SliderFloat(std::string("camera_x").c_str(), &camera_x, 0.0f, 20.0f);
             ImGui::SliderFloat(std::string("zoom").c_str(), &zoom_level, 1.0f, 50.0f);
             ImGui::End();
@@ -189,28 +192,28 @@ int main(int argc, char** argv) {
 
         // Camera follows player
         if (scroll_right) {
-            if (elements.getP1().getPosX() / TILE_SIZE - camera_x > zoom_level * .35f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() / TILE_SIZE - zoom_level * .35f / aspect_ratio;
+            if (p->getPosX() / TILE_SIZE - camera_x > zoom_level * .35f / aspect_ratio) {
+                camera_x = elements->getP1()->getPosX() / TILE_SIZE - zoom_level * .35f / aspect_ratio;
             }
-            else if (elements.getP1().getPosX() / TILE_SIZE - camera_x < -zoom_level * .65f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() / TILE_SIZE + zoom_level * .35f / aspect_ratio;
+            else if (elements->getP1()->getPosX() / TILE_SIZE - camera_x < -zoom_level * .65f / aspect_ratio) {
+                camera_x = elements->getP1()->getPosX() / TILE_SIZE + zoom_level * .35f / aspect_ratio;
                 scroll_right = false;
             }
         }
         else {
-            if (elements.getP1().getPosX() / TILE_SIZE - camera_x > zoom_level * .65f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() / TILE_SIZE - zoom_level * .35f / aspect_ratio;
+            if (p->getPosX() / TILE_SIZE - camera_x > zoom_level * .65f / aspect_ratio) {
+                camera_x = p->getPosX() / TILE_SIZE - zoom_level * .35f / aspect_ratio;
                 scroll_right = true;
             }
-            else if (elements.getP1().getPosX() / TILE_SIZE - camera_x < -zoom_level * .35f / aspect_ratio) {
-                camera_x = elements.getP1().getPosX() / TILE_SIZE + zoom_level * .35f / aspect_ratio;
+            else if (p->getPosX() / TILE_SIZE - camera_x < -zoom_level * .35f / aspect_ratio) {
+                camera_x = p->getPosX() / TILE_SIZE + zoom_level * .35f / aspect_ratio;
             }
         }
-        if (elements.getP1().getPosY() / TILE_SIZE > zoom_level * .95f) {
-            zoom_level = elements.getP1().getPosY() / TILE_SIZE / .95f;
+        if (p->getPosY() / TILE_SIZE > zoom_level * .95f) {
+            zoom_level = p->getPosY() / TILE_SIZE / .95f;
         }
-        else if (elements.getP1().getPosY() / TILE_SIZE < -zoom_level * .95f) {
-            zoom_level = -elements.getP1().getPosY() / TILE_SIZE / .95f;
+        else if (p->getPosY() / TILE_SIZE < -zoom_level * .95f) {
+            zoom_level = -(p->getPosY()) / TILE_SIZE / .95f;
         }
 
         // Draw map tiles
@@ -218,23 +221,23 @@ int main(int argc, char** argv) {
         mapTile.setU("zoom", 1 / zoom_level);
         mapTile.setU("camera_x", camera_x);
         mapTile.setU("aspect_ratio", aspect_ratio);
-        MapDisplay m = display.getMapDisplay();
-        for (int y = 0; y < elements.getMap().getMapHeight(); y++) {
-            for (int x = 0; x < elements.getMap().getMapHeight(); x++) {
-                if (elements.getMap().isObstacle(x, y)) {
+        MapDisplay* md = display.getMapDisplay();
+        for (int y = 0; y < m->getMapHeight(); y++) {
+            for (int x = 0; x < m->getMapHeight(); x++) {
+                if (m->isObstacle(x, y)) {
                     mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.8f, 0.8f, 0.8f);
-                    m.bindDrawTile();
+                    md->bindDrawTile();
                 }
-                if (elements.getMap().getTile(x, y) == TileType::slope45d) {
+                if (m->getTile(x, y) == TileType::slope45d) {
                     mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.8f, 0.1f, 0.8f);
-                    m.bindDrawDTile();
+                    md->bindDrawDTile();
                 }
-                if (elements.getMap().getTile(x, y) == TileType::slope45b) {
+                if (m->getTile(x, y) == TileType::slope45b) {
                     mapTile.setU("pos", x, y);
                     mapTile.setU("color", 0.1f, 0.8f, 0.8f);
-                    m.bindDrawBTile();
+                    md->bindDrawBTile();
                 }
             }
         }
@@ -242,22 +245,23 @@ int main(int argc, char** argv) {
         // Draw player
         playerIcon.use();
         playerIcon.setU("aspect_ratio", aspect_ratio);
-        playerIcon.setU("pos", elements.getP1().getPosX() / TILE_SIZE, elements.getP1().getPosY() / TILE_SIZE);
+        playerIcon.setU("pos", p->getPosX() / TILE_SIZE, p->getPosY() / TILE_SIZE);
         playerIcon.setU("zoom", 1 / zoom_level);
         playerIcon.setU("camera_x", camera_x);
         //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
-        PlayerDisplay p = display.getPd1();
-        p.bindDraw();
+        PlayerDisplay* pd = display.getPd1();
+        pd->bindDraw();
 
         // Draw ennemies A
-        for (int i = 0; i < elements.getEnnemiACount(); i++) {
+        for (int i = 0; i < elements->getEnnemiACount(); i++) {
+            goomba = elements->getEnnemiA(i);
             playerIcon.use();
             playerIcon.setU("aspect_ratio", aspect_ratio);
-            playerIcon.setU("pos", elements.getEnnemiA(i).getPosX() / TILE_SIZE, elements.getEnnemiA(i).getPosY() / TILE_SIZE);
+            playerIcon.setU("pos", goomba->getPosX() / TILE_SIZE, goomba->getPosY() / TILE_SIZE);
             playerIcon.setU("zoom", 1 / zoom_level);
             playerIcon.setU("camera_x", camera_x);
             //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
-            p.bindDraw();
+            pd->bindDraw();
         }
 
         // Draw ImGui elements
@@ -268,7 +272,9 @@ int main(int argc, char** argv) {
     }
 
     // Close application
-    elements.setShouldClose();
+    elements->setShouldClose();
+    delete m;
+    delete elements;
     t1.join();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

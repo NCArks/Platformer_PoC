@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 #include "map_display.h"
 
-MapDisplay::MapDisplay(const Map& map) :
-    _map(&map) {
+MapDisplay::MapDisplay(const Map* map) :
+    _map(map) {
     glGenVertexArrays(1, &_tile_vao);
     glGenBuffers(1, &_tile_vbo);
     glBindVertexArray(_tile_vao);
