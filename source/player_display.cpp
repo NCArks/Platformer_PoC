@@ -1,5 +1,7 @@
-#include <glad/glad.h>
 #include "player_display.h"
+
+#include <glad/glad.h>
+
 #include "player.h"
 
 PlayerDisplay::PlayerDisplay(const Player* _p1) :

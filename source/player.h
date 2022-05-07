@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "movable.h"
+
 #include <unordered_set>
 
 enum class PlayerState {

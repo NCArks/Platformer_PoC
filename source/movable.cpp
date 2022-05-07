@@ -1,7 +1,9 @@
 #include "movable.h"
+
+#include <cmath>
+
 #include <iostream>
 #include <algorithm>
-#include <cmath>
 
 void Movable::setSpd(float spdx, float spdy) {
     _speedx = spdx;

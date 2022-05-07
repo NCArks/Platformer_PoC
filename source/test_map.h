@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+
 #include "map.h"
 
 std::vector<TileType> map_tiles = {
