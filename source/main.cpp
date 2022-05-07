@@ -22,30 +22,49 @@ const unsigned int SCR_HEIGHT = 600;
 #define ONE_LOGIC_FRAME std::chrono::microseconds(16666)
 
 // Game logic thread's main function
-void logic(LogicElements* elements, Inputs& inputs, std::chrono::steady_clock& clock) {
-    Map m = *elements->getMap();
-    auto previous_time = clock.now();
+void logic(LogicElements* elements, Inputs* inputs, std::chrono::steady_clock* clock) {
+    if (elements == nullptr || inputs == nullptr || clock == nullptr) {
+        return;
+    }
+
+    Map* p_m = elements->getMap();
+    Map m;
+    if (p_m == nullptr) {
+        return;
+    }
+    else {
+        m = *p_m;
+    }
+
+    Player* p_player = elements->getP1();
+    if (p_player == nullptr) {
+        return;
+    }
+
+    NpcGoomba* g = nullptr;
+    
+    auto previous_time = clock->now();
     while (!elements->getShouldClose()) {
-        auto current_time = clock.now();
+        auto current_time = clock->now();
         auto delta_time = current_time - previous_time;
         //std::cout << "elapsed time: " << std::chrono::duration_cast<std::chrono::microseconds>(delta_time).count() << std::endl;
         int frames_passed = (int)(delta_time / ONE_LOGIC_FRAME);
         //std::cout << "number of frames: " << frames_passed << std::endl;
         if (frames_passed > 0) {
             previous_time += frames_passed * ONE_LOGIC_FRAME;
-            for (int i = (int)inputs.getInputQueueSize(); i > 0; --i) {
-                inputs.popQueue();
-                inputs.clearStr();
-                for (const auto key : inputs.getPressedKeys()) {
-                    inputs.addStr(key);
+            for (int i = (int)inputs->getInputQueueSize(); i > 0; --i) {
+                inputs->popQueue();
+                inputs->clearStr();
+                for (const auto key : inputs->getPressedKeys()) {
+                    inputs->addStr(key);
                 }
             }
-            inputs.getPressedKeys();
+            inputs->getPressedKeys();
             //elements.getMap();
 
-            elements->getP1()->PlayerUpdate(inputs.getPressedKeys(), frames_passed, m);
+            p_player->PlayerUpdate(inputs->getPressedKeys(), frames_passed, m);
 
-            NpcGoomba* g;
+            
             for (int i = 0; i < elements->getEnnemiACount(); i++) {
                 g = elements->getEnnemiA(i);
                 g->ennemiUpdate(frames_passed,m);
@@ -62,6 +81,19 @@ float aspect_ratio = 800.0f / 600.0f;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
     aspect_ratio = (float)width / (float)height;
+}
+
+void Cleanup(GLFWwindow* window) {
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    if (window == nullptr) {
+        
+    }
+    else {
+        glfwDestroyWindow(window);
+    }
+    glfwTerminate();
 }
 
 int main(int argc, char** argv) {
@@ -114,8 +146,14 @@ int main(int argc, char** argv) {
     DisplayElements display(elements.get());
     Map* m = elements->getMap();
     Player* p = elements->getP1();
+
+    if (m == nullptr || p == nullptr) {
+        Cleanup(window);
+        return -1;
+    }
+
     //PlayerDisplay pd1(elements.getP1());
-    NpcGoomba* goomba = elements->getEnnemiA(1);
+    NpcGoomba* goomba = nullptr;
 
     // Load game shaders
     Shader playerIcon;
@@ -124,14 +162,14 @@ int main(int argc, char** argv) {
     mapTile.initialize("shaders/vertex.glsl", "shaders/tile.glsl");
 
     // Initialize GLFW inputs
-    Inputs inputs;
-    glfwSetKeyCallback(window, inputs.key_callback);
+    std::unique_ptr<Inputs> inputs = std::make_unique<Inputs>();
+    glfwSetKeyCallback(window, inputs->key_callback);
 
     // Initialize application clock
-    std::chrono::steady_clock clock = std::chrono::steady_clock();
+    std::unique_ptr<std::chrono::steady_clock> clock = std::make_unique<std::chrono::steady_clock>();
 
     // Start game logic thread
-    std::thread t1(logic, elements.get(), std::ref(inputs), std::ref(clock));
+    std::thread t1(logic, elements.get(), inputs.get(), clock.get());
 
     // Some display variables
     float zoom_level = 1.0f;
@@ -171,7 +209,7 @@ int main(int argc, char** argv) {
 
             ImGui::ColorEdit3("background color", (float*)&clear_color);
 
-            ImGui::Text(("Keys: " + inputs.getPressedStr()).c_str());
+            ImGui::Text(("Keys: " + inputs->getPressedStr()).c_str());
 
             ImGui::Text(("state: " + p->getState()).c_str());
 
@@ -276,12 +314,7 @@ int main(int argc, char** argv) {
     // Close application
     elements->setShouldClose();
     t1.join();
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
+    Cleanup(window);
 
     return 0;
 }

@@ -28,7 +28,7 @@ Player::Player() {
     _at_ceiling = false;
 }
 
-void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time, Map map) {
+void Player::PlayerUpdate(const std::unordered_set<int> keys_pressed, const float delta_time, const Map map) {
     switch (_current_state) {
     case PlayerState::stand:
         _speedx = .0f;

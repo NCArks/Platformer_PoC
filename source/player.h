@@ -22,7 +22,7 @@ private:
 
 public:
     Player();
-    void PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time, Map map);
+    void PlayerUpdate(const std::unordered_set<int> keys_pressed, const float delta_time, const Map map);
     float getPosX() const;
     float getPosY() const;
     float getSpdX() const;
