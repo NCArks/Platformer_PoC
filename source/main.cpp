@@ -12,6 +12,7 @@
 #include "logic_elements.h"
 #include "shader.h"
 #include "map.h"
+
 #include "test_map.h"
 
 const unsigned int SCR_WIDTH = 800;

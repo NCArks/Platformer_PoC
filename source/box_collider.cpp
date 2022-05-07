@@ -1,6 +1,5 @@
-#include <cmath>
-
 #include "box_collider.h"
+#include <cmath>
 
 BoxCollider::BoxCollider() {}
 

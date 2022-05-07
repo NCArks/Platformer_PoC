@@ -2,7 +2,6 @@
 #define MAP_H
 
 #include <vector>
-#include <cmath>
 
 #define TILE_SIZE 32
 

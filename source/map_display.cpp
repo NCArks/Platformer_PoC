@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include "map_display.h"
 
 MapDisplay::MapDisplay(const Map* map) :

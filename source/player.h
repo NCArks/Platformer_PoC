@@ -1,9 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <unordered_set>
 
 #include "movable.h"
-
+#include <unordered_set>
 
 enum class PlayerState {
     stand,

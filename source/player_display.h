@@ -1,9 +1,7 @@
 #ifndef PLAYER_DISPLAY_H
 #define PLAYER_DISPLAY_H
 
-#include <glad/glad.h>
-
-#include "player.h"
+class Player;
 
 class PlayerDisplay {
 public:
