@@ -30,97 +30,100 @@ Player::Player() {
 
 void Player::PlayerUpdate(const std::unordered_set<int> keys_pressed, const float delta_time, const Map map) {
     switch (_current_state) {
-    case PlayerState::stand:
-        _speedx = .0f;
-        _speedy = .0f;
-
-        if (!_on_ground) {
-            _current_state = PlayerState::jump;
-            break;
-        }
-        if (keys_pressed.count(262) != keys_pressed.count(263)) {
-            _current_state = PlayerState::walk;
-            break;
-        }
-        else if (keys_pressed.count(32)) {
-            _speedy = _jump_speed;
-            _current_state = PlayerState::jump;
-            break;
-        }
-        break;
-
-    case PlayerState::walk:
-        if (keys_pressed.count(262) == keys_pressed.count(263)) {
-            _current_state = PlayerState::stand;
+        case PlayerState::stand:
             _speedx = .0f;
             _speedy = .0f;
-        }
-        else if (keys_pressed.count(262)) {
-            if (_pushes_left_wall) {
-                _speedx = .0f;
+
+            if (!_on_ground) {
+                _current_state = PlayerState::jump;
+                break;
             }
-            else {
-                _speedx = _walk_speed;
+            if (keys_pressed.count(262) != keys_pressed.count(263)) {
+                _current_state = PlayerState::walk;
+                break;
             }
-        }
-        else if (keys_pressed.count(263)) {
-            if (_pushed_right_wall) {
-                _speedx = .0f;
+            else if (keys_pressed.count(32)) {
+                _speedy = _jump_speed;
+                _current_state = PlayerState::jump;
+                break;
             }
-            else {
-                _speedx = -_walk_speed;
-            }
-        }
-        if (keys_pressed.count(32)) {
-            _speedy = _jump_speed;
-            _current_state = PlayerState::jump;
             break;
-        }
-        else if (!_on_ground) {
-            _current_state = PlayerState::jump;
-            break;
-        }
-        break;
-    case PlayerState::jump:
-        _speedy -= _gravity_constant * delta_time;
-        _speedy = std::max(_speedy, _max_fall_speed);
-        if (keys_pressed.count(262) == keys_pressed.count(263)) {
-            _speedx = .0f;
-        }
-        else if (keys_pressed.count(262)) {
-            if (_pushes_left_wall) {
-                _speedx = .0f;
-            }
-            else {
-                _speedx = _walk_speed;
-            }
-        }
-        else if (keys_pressed.count(263)) {
-            if (_pushes_right_wall) {
-                _speedx = .0f;
-            }
-            else {
-                _speedx = -_walk_speed;
-            }
-        }
-        if (keys_pressed.count(32) == 0 && _speedy > 0.0f) {
-            _speedy = std::min(_speedy, _min_jump_speed);
-        }
-        if (_on_ground) {
+
+        case PlayerState::walk:
             if (keys_pressed.count(262) == keys_pressed.count(263)) {
                 _current_state = PlayerState::stand;
                 _speedx = .0f;
                 _speedy = .0f;
             }
-            else {
-                _current_state = PlayerState::walk;
-                _speedy = 0.0f;
+            else if (keys_pressed.count(262)) {
+                if (_pushes_left_wall) {
+                    _speedx = .0f;
+                }
+                else {
+                    _speedx = _walk_speed;
+                }
             }
-        }
-        break;
+            else if (keys_pressed.count(263)) {
+                if (_pushed_right_wall) {
+                    _speedx = .0f;
+                }
+                else {
+                    _speedx = -_walk_speed;
+                }
+            }
+            if (keys_pressed.count(32)) {
+                _speedy = _jump_speed;
+                _current_state = PlayerState::jump;
+                break;
+            }
+            else if (!_on_ground) {
+                _current_state = PlayerState::jump;
+                break;
+            }
+            break;
+        case PlayerState::jump:
+            _speedy -= _gravity_constant * delta_time;
+            _speedy = std::max(_speedy, _max_fall_speed);
+            if (keys_pressed.count(262) == keys_pressed.count(263)) {
+                _speedx = .0f;
+            }
+            else if (keys_pressed.count(262)) {
+                if (_pushes_left_wall) {
+                    _speedx = .0f;
+                }
+                else {
+                    _speedx = _walk_speed;
+                }
+            }
+            else if (keys_pressed.count(263)) {
+                if (_pushes_right_wall) {
+                    _speedx = .0f;
+                }
+                else {
+                    _speedx = -_walk_speed;
+                }
+            }
+            if (keys_pressed.count(32) == 0 && _speedy > 0.0f) {
+                _speedy = std::min(_speedy, _min_jump_speed);
+            }
+            if (_on_ground) {
+                if (keys_pressed.count(262) == keys_pressed.count(263)) {
+                    _current_state = PlayerState::stand;
+                    _speedx = .0f;
+                    _speedy = .0f;
+                }
+                else {
+                    _current_state = PlayerState::walk;
+                    _speedy = 0.0f;
+                }
+            }
+            break;
+        default:
+            break;
     }
 
     updatePhysics(delta_time, map);
+    return;
 }
 
 float Player::getPosX() const {

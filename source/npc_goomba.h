@@ -18,10 +18,10 @@ public:
     float getPosY() const override;
 
 private:
-    NpcGoombaState _current_state;
-    float _walk_speed;
-    float _gravity_constant;
-    float _max_fall_speed;
+    NpcGoombaState _current_state = NpcGoombaState::walk_left;
+    float _walk_speed = 0;
+    float _gravity_constant = 0;
+    float _max_fall_speed = 0;
 };
 
 #endif

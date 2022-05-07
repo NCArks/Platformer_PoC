@@ -26,49 +26,52 @@ NpcGoomba::NpcGoomba() {
 
 void NpcGoomba::ennemiUpdate(const float delta_time, const Map map) {
     switch (_current_state) {
-    case NpcGoombaState::air_left:
-        if (_on_ground) {
-            _current_state = NpcGoombaState::walk_left;
-        }
-        _speedy -= _gravity_constant * delta_time;
-        _speedy = std::max(_speedy, _max_fall_speed);
-        if (_pushes_left_wall) {
-            _current_state = NpcGoombaState::air_right;
+        case NpcGoombaState::air_left:
+            if (_on_ground) {
+                _current_state = NpcGoombaState::walk_left;
+            }
+            _speedy -= _gravity_constant * delta_time;
+            _speedy = std::max(_speedy, _max_fall_speed);
+            if (_pushes_left_wall) {
+                _current_state = NpcGoombaState::air_right;
+                break;
+            }
+        case NpcGoombaState::walk_left:
+            if (!_on_ground) {
+                _current_state = NpcGoombaState::air_left;
+            }
+            if (_pushes_left_wall) {
+                _current_state = NpcGoombaState::walk_right;
+                break;
+            }
+            _speedx = -1;
             break;
-        }
-    case NpcGoombaState::walk_left:
-        if (!_on_ground) {
-            _current_state = NpcGoombaState::air_left;
-        }
-        if (_pushes_left_wall) {
-            _current_state = NpcGoombaState::walk_right;
+        case NpcGoombaState::air_right:
+            if (_on_ground) {
+                _current_state = NpcGoombaState::walk_right;
+            }
+            _speedy -= _gravity_constant * delta_time;
+            _speedy = std::max(_speedy, _max_fall_speed);
+            if (_pushes_right_wall) {
+                _current_state = NpcGoombaState::air_left;
+                break;
+            }
+        case NpcGoombaState::walk_right:
+            if (!_on_ground) {
+                _current_state = NpcGoombaState::air_right;
+            }
+            if (_pushes_right_wall) {
+                _current_state = NpcGoombaState::walk_left;
+                break;
+            }
+            _speedx = 1;
             break;
-        }
-        _speedx = -1;
-        break;
-    case NpcGoombaState::air_right:
-        if (_on_ground) {
-            _current_state = NpcGoombaState::walk_right;
-        }
-        _speedy -= _gravity_constant * delta_time;
-        _speedy = std::max(_speedy, _max_fall_speed);
-        if (_pushes_right_wall) {
-            _current_state = NpcGoombaState::air_left;
+        default:
             break;
-        }
-    case NpcGoombaState::walk_right:
-        if (!_on_ground) {
-            _current_state = NpcGoombaState::air_right;
-        }
-        if (_pushes_right_wall) {
-            _current_state = NpcGoombaState::walk_left;
-            break;
-        }
-        _speedx = 1;
-        break;
     }
 
     updatePhysics(delta_time, map);
+    return;
 }
 
 float NpcGoomba::getPosX() const {
