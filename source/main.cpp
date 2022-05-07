@@ -107,11 +107,12 @@ int main(int argc, char** argv) {
     ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
     // Create game elements
-    LogicElements* elements = new LogicElements();;
+    std::unique_ptr<LogicElements> elements = std::make_unique<LogicElements>();
+    elements->Init();
     elements->setEnnemiA(1);
-    Map* m = new Map(10, 10, map_tiles);
-    elements->setMap(m);
-    DisplayElements display(elements);
+    elements->setMap(std::make_unique<Map>(10, 10, map_tiles));
+    DisplayElements display(elements.get());
+    Map* m = elements->getMap();
     Player* p = elements->getP1();
     //PlayerDisplay pd1(elements.getP1());
     NpcGoomba* goomba = elements->getEnnemiA(1);
@@ -130,7 +131,7 @@ int main(int argc, char** argv) {
     std::chrono::steady_clock clock = std::chrono::steady_clock();
 
     // Start game logic thread
-    std::thread t1(logic, elements, std::ref(inputs), std::ref(clock));
+    std::thread t1(logic, elements.get(), std::ref(inputs), std::ref(clock));
 
     // Some display variables
     float zoom_level = 1.0f;
@@ -223,7 +224,7 @@ int main(int argc, char** argv) {
         mapTile.setU("camera_x", camera_x);
         mapTile.setU("aspect_ratio", aspect_ratio);
         MapDisplay* md = display.getMapDisplay();
-        for (int y = 0; y < m->getMapHeight(); y++) {
+        for (int y = 0; y < elements->getMap()->getMapHeight(); y++) {
             for (int x = 0; x < m->getMapHeight(); x++) {
                 if (m->isObstacle(x, y)) {
                     mapTile.setU("pos", x, y);
@@ -274,8 +275,6 @@ int main(int argc, char** argv) {
 
     // Close application
     elements->setShouldClose();
-    delete m;
-    delete elements;
     t1.join();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

@@ -13,12 +13,12 @@ enum class PlayerState {
 
 class Player : public Movable {
 private:
-    PlayerState _current_state;
-    float _jump_speed;
-    float _walk_speed;
-    float _gravity_constant;
-    float _max_fall_speed;
-    float _min_jump_speed;
+    PlayerState _current_state = PlayerState::stand;
+    float _jump_speed = 0.0f;
+    float _walk_speed = 0.0f;
+    float _gravity_constant = 0.0f;
+    float _max_fall_speed = 0.0f;
+    float _min_jump_speed = 0.0f;
 
 public:
     Player();

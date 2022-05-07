@@ -1,18 +1,20 @@
 #include "logic_elements.h"
 
+#include <memory>
+
 LogicElements::LogicElements() {
-    p_p1 = new Player();
+
 }
+
 LogicElements::~LogicElements() {
-    for (int i = 0; i < _ennemies_a.size(); i++) {
-        delete _ennemies_a[i];
-    }
-    _ennemies_a.clear();
-    delete p_p1;
 };
 
+void LogicElements::Init() {
+    p_p1 = std::make_unique<Player>();
+}
+
 Player* LogicElements::getP1() const {
-    return p_p1;
+    return p_p1.get();
 }
 
 int LogicElements::getEnnemiACount() const {
@@ -22,13 +24,13 @@ int LogicElements::getEnnemiACount() const {
 void LogicElements::setEnnemiA(int const number)
 {
     for (int i = 0; i < number; i++) {
-        _ennemies_a.push_back(new NpcGoomba());
+        _ennemies_a.push_back(std::make_unique<NpcGoomba>());
     }
 }
 
 NpcGoomba* LogicElements::getEnnemiA(int const index) const{
     if (_ennemies_a.size() > index) {
-        return _ennemies_a[index];
+        return _ennemies_a[index].get();
     }
     else {
         return nullptr;
@@ -36,12 +38,12 @@ NpcGoomba* LogicElements::getEnnemiA(int const index) const{
 
 }
 
-void LogicElements::setMap(Map* const map) {
-    p_map = map;
+void LogicElements::setMap(std::unique_ptr<Map> map) {
+    p_map = std::move(map);
 }
 
 Map* LogicElements::getMap() const {
-    return p_map;
+    return p_map.get();
 }
 
 void LogicElements::setShouldClose() {
