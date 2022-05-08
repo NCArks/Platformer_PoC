@@ -94,14 +94,9 @@ void Cleanup(GLFWwindow* window) {
     glfwTerminate();
 }
 
-int DrawFrame(GLFWwindow& window, ImVec4& clear_color, PlayerSkills& pskills, DisplayVariables& dvar, DisplayElements& display, Inputs& inputs, LogicElements& elements, Map& m, Player& p, Shader& playerIcon, Shader& mapTile) {
+void DrawFrame(ImVec4& clear_color, PlayerSkills& pskills, DisplayVariables& dvar, DisplayElements& display, Inputs& inputs, LogicElements& elements, Map& m, Player& p, Shader& playerIcon, Shader& mapTile) {
     
     NpcGoomba* goomba = nullptr;
-
-    int ret = glfwWindowShouldClose(&window);
-    if (ret) {
-        return ret;
-    }
     // Poll GLFW events
     glfwPollEvents();
 
@@ -225,8 +220,7 @@ int DrawFrame(GLFWwindow& window, ImVec4& clear_color, PlayerSkills& pskills, Di
     // Draw ImGui elements
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    glfwSwapBuffers(&window);
-    return 1;
+    return;
 }
 
 void Cleanup(GLFWwindow& window, LogicElements& elements, std::thread& t1) {
@@ -296,10 +290,13 @@ int main(int argc, char** argv) {
     std::unique_ptr<std::chrono::steady_clock> clock = std::make_unique<std::chrono::steady_clock>();
 
     // Start game logic thread
-    std::thread t1(logic, *elements.get(), *inputs.get(), *clock.get());
+    std::thread t1(logic, std::ref(*elements.get()), std::ref(*inputs.get()), std::ref(*clock.get()));
     
     // Main display loop
-    while (DrawFrame(*window, clear_color, pskills, dvar, display, *inputs.get(), *elements.get(), *m, *p, playerIcon, mapTile)) {};
+    while(!glfwWindowShouldClose(window)){
+        DrawFrame(clear_color, pskills, dvar, display, *inputs.get(), *elements.get(), *m, *p, playerIcon, mapTile);
+        glfwSwapBuffers(window);
+    }
      
     Cleanup(*window, *elements, t1);
 
