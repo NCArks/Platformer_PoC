@@ -97,9 +97,14 @@ void Cleanup(GLFWwindow* window) {
     glfwTerminate();
 }
 
-void DrawFrame(ImVec4& clear_color, PlayerSkills& pskills, DisplayVariables& dvar, DisplayElements& display, Inputs* inputs, LogicElements* elements, Map* m, Player* p, Shader& playerIcon, Shader& mapTile) {
+int DrawFrame(GLFWwindow* window, ImVec4& clear_color, PlayerSkills& pskills, DisplayVariables& dvar, DisplayElements& display, Inputs* inputs, LogicElements* elements, Map* m, Player* p, Shader& playerIcon, Shader& mapTile) {
     
     NpcGoomba* goomba = nullptr;
+
+    int ret = glfwWindowShouldClose(window);
+    if (ret) {
+        return ret;
+    }
     // Poll GLFW events
     glfwPollEvents();
 
@@ -223,20 +228,11 @@ void DrawFrame(ImVec4& clear_color, PlayerSkills& pskills, DisplayVariables& dva
     // Draw ImGui elements
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    glfwSwapBuffers(window);
+    return 1;
 }
 
 int main(int argc, char** argv) {
-    //if (true) {
-    //    LogicElements elts;
-    //    elts.getMap() = Map(10, 10, map_tiles);
-    //    elts.getP1().setPos(1.6f, 4.4f);
-    //    elts.getP1().setSpd(2.0f, -0.145f);
-    //    std::cout << "b:" << elts.getP1().getPosX() << " " << elts.getP1().getPosY() << std::endl;
-    //    elts.getP1().updatePhysics(1.0f, elts.getMap());
-    //    std::cout << "a:" << elts.getP1().getPosX() << " " << elts.getP1().getPosY() << std::endl;
-    //    return 0;
-    //}
-
     // Initialize GLFW
     if (!glfwInit()) {
         return 1;
@@ -252,7 +248,6 @@ int main(int argc, char** argv) {
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    //glfwSwapInterval(1);
 
     // Load GLAD openGL
     bool err = gladLoadGL() == 0;
@@ -283,9 +278,6 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    //PlayerDisplay pd1(elements.getP1());
-    
-
     // Load game shaders
     Shader playerIcon;
     Shader mapTile;
@@ -303,11 +295,8 @@ int main(int argc, char** argv) {
     std::thread t1(logic, elements.get(), inputs.get(), clock.get());
 
     // Main display loop
-    while (!glfwWindowShouldClose(window)) {
-        DrawFrame(clear_color,pskills,dvar,display,inputs.get(), elements.get(), m, p, playerIcon, mapTile);
-        glfwSwapBuffers(window);
-    }
-
+    while (DrawFrame(window, clear_color, pskills, dvar, display, inputs.get(), elements.get(), m, p, playerIcon, mapTile)) {};
+     
     // Close application
     elements->setShouldClose();
     t1.join();
