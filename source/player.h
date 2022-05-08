@@ -11,6 +11,14 @@ enum class PlayerState {
     jump
 };
 
+struct PlayerSkills {
+    // "Skill points system" variables
+    float a = .0f;
+    float b = .0f;
+    float c = .0f;
+    float d = .0f;
+};
+
 class Player : public Movable {
 private:
     PlayerState _current_state = PlayerState::stand;

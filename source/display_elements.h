@@ -7,6 +7,13 @@
 #include "player_display.h"
 #include "map_display.h"
 
+struct DisplayVariables {
+    // Some display variables
+    float zoom_level = 1.0f;
+    float camera_x = 0.0f;
+    bool scroll_right = true;
+};
+
 class DisplayElements {
 private:
     std::unique_ptr<PlayerDisplay> p_pd1 = nullptr;
