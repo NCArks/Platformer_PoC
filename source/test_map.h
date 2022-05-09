@@ -1,3 +1,6 @@
+#ifndef test_map
+#define test_map
+
 #pragma once
 
 #include <vector>
@@ -16,3 +19,6 @@ std::vector<TileType> map_tiles = {
     TileType::empty, TileType::slope45b, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::empty,
     TileType::block, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::empty, TileType::block, TileType::block,
 };
+
+#endif // !test_map
+
