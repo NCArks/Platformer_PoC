@@ -20,6 +20,7 @@ set(SOURCES
     "${SRC_DIR}/player.cpp"
     "${SRC_DIR}/player_display.cpp"
     "${SRC_DIR}/shader.cpp"
+    "${SRC_DIR}/engine.cpp"
 )
 
 set(IMGUI_SOURCES
