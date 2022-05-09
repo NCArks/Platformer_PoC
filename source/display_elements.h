@@ -7,6 +7,9 @@
 #include "player_display.h"
 #include "map_display.h"
 
+/// <summary>
+/// Contains all variables related to Camera work and Display management
+/// </summary>
 struct DisplayVariables {
     // Some display variables
     float zoom_level = 1.0f;
@@ -21,9 +24,24 @@ private:
 
 public:
     DisplayElements();
-    DisplayElements(const LogicElements* logic);
+
+    /// <summary>
+    /// Takes a LogicElements object and fetchs it's Map and Player to make appropriate Displays
+    /// </summary>
+    /// <param name="logic">Reference to object instance</param>
+    DisplayElements(const LogicElements& logic);
     ~DisplayElements();
-    PlayerDisplay* getPd1() const;
+
+    /// <summary>
+    /// Retrieves the Raw Pointer of the Player Display instance stored within
+    /// </summary>
+    /// <returns>Raw Player Display Pointer</returns>
+    PlayerDisplay* getPlayerDisplay() const;
+
+    /// <summary>
+    /// Retrieves the Raw Pointer of the Map Display instance stored within
+    /// </summary>
+    /// <returns>Raw Map Display Pointer</returns>
     MapDisplay* getMapDisplay() const;
 };
 

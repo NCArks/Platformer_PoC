@@ -51,7 +51,7 @@ bool engine::Init()
 
     inputs = std::make_unique<Inputs>();
 
-    display = std::make_unique<DisplayElements>(elements.get());
+    display = std::make_unique<DisplayElements>(*elements.get());
 
     map = elements->getMap();
     player = elements->getP1();
@@ -271,7 +271,7 @@ bool engine::DrawFrame() {
     playerIcon.setU("zoom", 1 / dvar.zoom_level);
     playerIcon.setU("camera_x", dvar.camera_x);
 
-    PlayerDisplay* pd = display->getPd1();
+    PlayerDisplay* pd = display->getPlayerDisplay();
     if (pd == nullptr) {
         return false;
     }
