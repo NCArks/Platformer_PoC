@@ -6,12 +6,12 @@
 
 class Movable : public BoxCollider {
 public:
-    void updatePhysics(const int delta_time, const Map map);
+    void updatePhysics(const int delta_time, const Map& map);
     void setSpd(const float spdx, const float spdy);
-    bool collideTileRight(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map map);
-    bool collideTileLeft(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map map);
-    bool collideTileBottom(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map map);
-    bool collideTileTop(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map map);
+    bool collideTileRight(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map& map);
+    bool collideTileLeft(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map& map);
+    bool collideTileBottom(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map& map);
+    bool collideTileTop(const int x, const int y, const int half_width, const int half_height, const bool on_ground, const Map& map);
 
 protected:
     int _old_posx = 0;
