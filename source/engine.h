@@ -29,12 +29,38 @@ public:
 	engine();
 	~engine();
 
+	/// <summary>
+	/// Initializes all engine memory and pointers with correct values for a proper run. Needs to be run before the Run method is called.
+	/// Starts the Game Logic Thread.
+	/// </summary>
+	/// <returns>True if completes properly, False otherwise</returns>
 	bool Init();
+
+	/// <summary>
+	/// Runs the main loop of the game, mainly Draws. Logic is executed in a separate thread started in Init.
+	/// </summary>
 	void Run();
+
+	/// <summary>
+	/// Cleans all the memory, stops and join the game logic thread.
+	/// </summary>
 	void EngineCleanup();
 
 private:
+
+	/// <summary>
+	/// Game Logic method executed in a separate thread. Updates the Game Data.
+	/// </summary>
+	/// <param name="elements">Logic Element object instance reference</param>
+	/// <param name="inputs">Global Input object instance reference</param>
+	/// <param name="clock">Steady Clock object instance reference</param>
 	void Logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& clock);
+
+	/// <summary>
+	/// Draws data on the window based on engine memory updated by the Logic method. Uses OpenGL API, and ImGUI interface for display.
+	/// Can be used to loop or check if the loop is flawed.
+	/// </summary>
+	/// <returns>False when an error happens, True otherwise</returns>
 	bool DrawFrame();
 
 	const char* glsl_version = "#version 130";
