@@ -30,9 +30,9 @@ private:
 
 public:
     Player();
-    void PlayerUpdate(const std::unordered_set<int> keys_pressed, const float delta_time, const Map map);
-    float getPosX() const;
-    float getPosY() const;
+    void PlayerUpdate(const std::unordered_set<int> keys_pressed, const int delta_time, const Map map);
+    int getPosX() const;
+    int getPosY() const;
     float getSpdX() const;
     float getSpdY() const;
     std::string getState() const;

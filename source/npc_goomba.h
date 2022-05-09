@@ -13,9 +13,9 @@ enum class NpcGoombaState {
 class NpcGoomba : public NpcMovable {
 public:
     NpcGoomba();
-    void ennemiUpdate(const float delta_time, const Map map) override;
-    float getPosX() const override;
-    float getPosY() const override;
+    void ennemiUpdate(const int delta_time, const Map map) override;
+    int getPosX() const override;
+    int getPosY() const override;
 
 private:
     NpcGoombaState _current_state = NpcGoombaState::walk_left;

@@ -18,7 +18,7 @@ Player* LogicElements::getP1() const {
 }
 
 int LogicElements::getEnnemiACount() const {
-    return _ennemies_a.size();
+    return static_cast<int>(_ennemies_a.size());
 }
 
 void LogicElements::setEnnemiA(int const number)

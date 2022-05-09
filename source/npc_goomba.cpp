@@ -24,7 +24,7 @@ NpcGoomba::NpcGoomba() {
     _at_ceiling = false;
 }
 
-void NpcGoomba::ennemiUpdate(const float delta_time, const Map map) {
+void NpcGoomba::ennemiUpdate(const int delta_time, const Map map) {
     switch (_current_state) {
         case NpcGoombaState::air_left:
             if (_on_ground) {
@@ -74,10 +74,10 @@ void NpcGoomba::ennemiUpdate(const float delta_time, const Map map) {
     return;
 }
 
-float NpcGoomba::getPosX() const {
+int NpcGoomba::getPosX() const {
     return _posx;
 }
 
-float NpcGoomba::getPosY() const {
+int NpcGoomba::getPosY() const {
     return _posy;
 }

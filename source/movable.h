@@ -16,8 +16,8 @@ public:
 protected:
     int _old_posx = 0;
     int _old_posy = 0;
-    int _old_speedx = 0;
-    int _old_speedy = 0;
+    float _old_speedx = 0;
+    float _old_speedy = 0;
     float _speedx = 0;
     float _speedy = 0;
     int _scalex = 0;

@@ -138,12 +138,12 @@ void engine::Logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_
             }
             inputs.getPressedKeys();
 
-            p_player->PlayerUpdate(inputs.getPressedKeys(), static_cast<float>(frames_passed), m);
+            p_player->PlayerUpdate(inputs.getPressedKeys(), frames_passed, m);
 
 
             for (int i = 0; i < elements.getEnnemiACount(); i++) {
                 g = elements.getEnnemiA(i);
-                g->ennemiUpdate(static_cast<float>(frames_passed),m);
+                g->ennemiUpdate(frames_passed,m);
             }
         }
         else {
@@ -267,7 +267,7 @@ bool engine::DrawFrame() {
     // Draw player
     playerIcon.use();
     playerIcon.setU("aspect_ratio", aspect_ratio);
-    playerIcon.setU("pos", local_player.getPosX() / TILE_SIZE, local_player.getPosY() / TILE_SIZE);
+    playerIcon.setU("pos", static_cast<float>(local_player.getPosX()) / TILE_SIZE, static_cast<float>(local_player.getPosY()) / TILE_SIZE);
     playerIcon.setU("zoom", 1 / dvar.zoom_level);
     playerIcon.setU("camera_x", dvar.camera_x);
 
@@ -283,7 +283,7 @@ bool engine::DrawFrame() {
         goomba = *elements->getEnnemiA(i);
         playerIcon.use();
         playerIcon.setU("aspect_ratio", aspect_ratio);
-        playerIcon.setU("pos", goomba.getPosX() / TILE_SIZE, goomba.getPosY() / TILE_SIZE);
+        playerIcon.setU("pos", static_cast<float>(goomba.getPosX()) / TILE_SIZE, static_cast<float>(goomba.getPosY()) / TILE_SIZE);
         playerIcon.setU("zoom", 1 / dvar.zoom_level);
         playerIcon.setU("camera_x", dvar.camera_x);
         pd->bindDraw();

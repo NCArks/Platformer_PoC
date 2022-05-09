@@ -25,8 +25,9 @@ void Movable::updatePhysics(const int delta_time, const Map map) {
     _pushes_left_wall = false;
     _pushes_right_wall = false;
 
-    _posx += std::trunc(_speedx * delta_time);
-    _posy += std::trunc(_speedy * delta_time);
+    // TODO : Woya must fix this
+    _posx += static_cast<int>(std::trunc(_speedx * delta_time));
+    _posy += static_cast<int>(std::trunc(_speedy * delta_time));
 
     int current_x = _old_posx;
     int current_y = _old_posy;
