@@ -77,7 +77,9 @@ void engine::Run()
         if (display.get() == nullptr || inputs.get() == nullptr || elements.get() == nullptr || map == nullptr || player == nullptr) {
             break;
         }
-        DrawFrame();
+        if (!DrawFrame()) {
+
+        }
         glfwSwapBuffers(window);
     }
 }
@@ -153,9 +155,10 @@ void engine::Logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_
     }
 }
 
-void engine::DrawFrame() {
+bool engine::DrawFrame() {
 
     NpcGoomba* goomba = nullptr;
+
     // Poll GLFW events
     glfwPollEvents();
 
@@ -232,7 +235,12 @@ void engine::DrawFrame() {
     mapTile.setU("zoom", 1 / dvar.zoom_level);
     mapTile.setU("camera_x", dvar.camera_x);
     mapTile.setU("aspect_ratio", aspect_ratio);
+
     MapDisplay* md = display->getMapDisplay();
+    if (md == nullptr) {
+        return false;
+    }
+
     for (int y = 0; y < map->getMapHeight(); y++) {
         for (int x = 0; x < map->getMapHeight(); x++) {
             if (map->isObstacle(x, y)) {
@@ -259,7 +267,12 @@ void engine::DrawFrame() {
     playerIcon.setU("pos", player->getPosX() / TILE_SIZE, player->getPosY() / TILE_SIZE);
     playerIcon.setU("zoom", 1 / dvar.zoom_level);
     playerIcon.setU("camera_x", dvar.camera_x);
+
     PlayerDisplay* pd = display->getPd1();
+    if (pd == nullptr) {
+        return false;
+    }
+
     pd->bindDraw();
 
     // Draw ennemies A
@@ -277,5 +290,5 @@ void engine::DrawFrame() {
     // Draw ImGui elements
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    return;
+    return true;
 }
