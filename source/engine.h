@@ -53,8 +53,8 @@ private:
 	std::unique_ptr<std::chrono::steady_clock> clock = nullptr;
 	std::unique_ptr<Inputs> inputs = nullptr;
 	std::unique_ptr<DisplayElements> display;
-	Map* m = nullptr;
-	Player* p = nullptr;;
+	Map* map = nullptr;
+	Player* player = nullptr;;
 	Shader playerIcon;
 	Shader mapTile;
 

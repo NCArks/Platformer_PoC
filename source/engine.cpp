@@ -53,8 +53,8 @@ bool engine::Init()
 
     display = std::make_unique<DisplayElements>(elements.get());
 
-    m = elements->getMap();
-    p = elements->getP1();
+    map = elements->getMap();
+    player = elements->getP1();
 
     clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
@@ -74,7 +74,7 @@ void engine::Run()
 {
     // Main display loop
     while (!glfwWindowShouldClose(window)) {
-        if (display.get() == nullptr || inputs.get() == nullptr || elements.get() == nullptr || m == nullptr || p == nullptr) {
+        if (display.get() == nullptr || inputs.get() == nullptr || elements.get() == nullptr || map == nullptr || player == nullptr) {
             break;
         }
         DrawFrame();
@@ -182,20 +182,20 @@ void engine::DrawFrame() {
 
         ImGui::Text(("Keys: " + (inputs->getPressedStr() == "" ? "None" : inputs->getPressedStr())).c_str());
 
-        ImGui::Text(("state: " + p->getState()).c_str());
+        ImGui::Text(("state: " + player->getState()).c_str());
 
-        ImGui::Text(("pos_x: " + std::to_string(p->getPosX())).c_str());
-        ImGui::Text(("pos_y: " + std::to_string(p->getPosY())).c_str());
-        ImGui::Text(("spd_x: " + std::to_string(p->getSpdX())).c_str());
-        ImGui::Text(("spd_y: " + std::to_string(p->getSpdY())).c_str());
+        ImGui::Text(("pos_x: " + std::to_string(player->getPosX())).c_str());
+        ImGui::Text(("pos_y: " + std::to_string(player->getPosY())).c_str());
+        ImGui::Text(("spd_x: " + std::to_string(player->getSpdX())).c_str());
+        ImGui::Text(("spd_y: " + std::to_string(player->getSpdY())).c_str());
 
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-        ImGui::SliderFloat(std::string("walk_spd").c_str(), &(p->getRefWalkSpd()), .0f, 32.0f);
-        ImGui::SliderFloat(std::string("jump_spd").c_str(), &(p->getRefJumpSpd()), .0f, 32.0f);
-        ImGui::SliderFloat(std::string("gravity").c_str(), &(p->getRefGravityConst()), .0f, 32.0f);
-        ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &(p->getRefMaxFallSpd()), -32.0f, .0f);
-        ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &(p->getRefMinJumpSpd()), .0f, 32.0f);
+        ImGui::SliderFloat(std::string("walk_spd").c_str(), &(player->getRefWalkSpd()), .0f, 32.0f);
+        ImGui::SliderFloat(std::string("jump_spd").c_str(), &(player->getRefJumpSpd()), .0f, 32.0f);
+        ImGui::SliderFloat(std::string("gravity").c_str(), &(player->getRefGravityConst()), .0f, 32.0f);
+        ImGui::SliderFloat(std::string("max_fall_spd").c_str(), &(player->getRefMaxFallSpd()), -32.0f, .0f);
+        ImGui::SliderFloat(std::string("min_jump_spd").c_str(), &(player->getRefMinJumpSpd()), .0f, 32.0f);
         ImGui::SliderFloat(std::string("camera_x").c_str(), &dvar.camera_x, 0.0f, 20.0f);
         ImGui::SliderFloat(std::string("zoom").c_str(), &dvar.zoom_level, 1.0f, 50.0f);
         ImGui::End();
@@ -203,28 +203,28 @@ void engine::DrawFrame() {
 
     // Camera follows player
     if (dvar.scroll_right) {
-        if (p->getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .35f / aspect_ratio) {
-            dvar.camera_x = elements->getP1()->getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
+        if (player->getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .35f / aspect_ratio) {
+            dvar.camera_x = player->getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
         }
-        else if (elements->getP1()->getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .65f / aspect_ratio) {
-            dvar.camera_x = elements->getP1()->getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
+        else if (player->getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .65f / aspect_ratio) {
+            dvar.camera_x = player->getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
             dvar.scroll_right = false;
         }
     }
     else {
-        if (p->getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .65f / aspect_ratio) {
-            dvar.camera_x = p->getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
+        if (player->getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .65f / aspect_ratio) {
+            dvar.camera_x = player->getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
             dvar.scroll_right = true;
         }
-        else if (p->getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .35f / aspect_ratio) {
-            dvar.camera_x = p->getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
+        else if (player->getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .35f / aspect_ratio) {
+            dvar.camera_x = player->getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
         }
     }
-    if (p->getPosY() / TILE_SIZE > dvar.zoom_level * .95f) {
-        dvar.zoom_level = p->getPosY() / TILE_SIZE / .95f;
+    if (player->getPosY() / TILE_SIZE > dvar.zoom_level * .95f) {
+        dvar.zoom_level = player->getPosY() / TILE_SIZE / .95f;
     }
-    else if (p->getPosY() / TILE_SIZE < -dvar.zoom_level * .95f) {
-        dvar.zoom_level = -(p->getPosY()) / TILE_SIZE / .95f;
+    else if (player->getPosY() / TILE_SIZE < -dvar.zoom_level * .95f) {
+        dvar.zoom_level = -(player->getPosY()) / TILE_SIZE / .95f;
     }
 
     // Draw map tiles
@@ -233,19 +233,19 @@ void engine::DrawFrame() {
     mapTile.setU("camera_x", dvar.camera_x);
     mapTile.setU("aspect_ratio", aspect_ratio);
     MapDisplay* md = display->getMapDisplay();
-    for (int y = 0; y < elements->getMap()->getMapHeight(); y++) {
-        for (int x = 0; x < m->getMapHeight(); x++) {
-            if (m->isObstacle(x, y)) {
+    for (int y = 0; y < map->getMapHeight(); y++) {
+        for (int x = 0; x < map->getMapHeight(); x++) {
+            if (map->isObstacle(x, y)) {
                 mapTile.setU("pos", static_cast<float>(x), static_cast<float>(y));
                 mapTile.setU("color", 0.8f, 0.8f, 0.8f);
                 md->bindDrawTile();
             }
-            if (m->getTile(x, y) == TileType::slope45d) {
+            if (map->getTile(x, y) == TileType::slope45d) {
                 mapTile.setU("pos", static_cast<float>(x), static_cast<float>(y));
                 mapTile.setU("color", 0.8f, 0.1f, 0.8f);
                 md->bindDrawDTile();
             }
-            if (m->getTile(x, y) == TileType::slope45b) {
+            if (map->getTile(x, y) == TileType::slope45b) {
                 mapTile.setU("pos", static_cast<float>(x), static_cast<float>(y));
                 mapTile.setU("color", 0.1f, 0.8f, 0.8f);
                 md->bindDrawBTile();
@@ -256,7 +256,7 @@ void engine::DrawFrame() {
     // Draw player
     playerIcon.use();
     playerIcon.setU("aspect_ratio", aspect_ratio);
-    playerIcon.setU("pos", p->getPosX() / TILE_SIZE, p->getPosY() / TILE_SIZE);
+    playerIcon.setU("pos", player->getPosX() / TILE_SIZE, player->getPosY() / TILE_SIZE);
     playerIcon.setU("zoom", 1 / dvar.zoom_level);
     playerIcon.setU("camera_x", dvar.camera_x);
     PlayerDisplay* pd = display->getPd1();
