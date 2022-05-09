@@ -35,7 +35,7 @@ public:
 
 private:
 	void Logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_clock& clock);
-	void DrawFrame(ImVec4& clear_color, PlayerSkills& pskills, DisplayVariables& dvar, DisplayElements& display, Inputs& inputs, LogicElements& elements, Map& m, Player& p, Shader& playerIcon, Shader& mapTile);
+	void DrawFrame();
 
 	const char* glsl_version = "#version 130";
 	const char* glsl_vertex_path = "shaders/vertex.glsl";
