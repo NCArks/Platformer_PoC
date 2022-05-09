@@ -20,6 +20,7 @@ private:
     std::unique_ptr<MapDisplay> p_mapd = nullptr;
 
 public:
+    DisplayElements();
     DisplayElements(const LogicElements* logic);
     ~DisplayElements();
     PlayerDisplay* getPd1() const;

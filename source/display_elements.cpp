@@ -2,6 +2,11 @@
 
 #include "player_display.h"
 
+DisplayElements::DisplayElements()
+{
+}
+
+
 DisplayElements::DisplayElements(const LogicElements* logic) :
     p_pd1(std::make_unique<PlayerDisplay>(*(logic->getP1()))),
     p_mapd(std::make_unique<MapDisplay>(*(logic->getMap())))
