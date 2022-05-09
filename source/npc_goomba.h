@@ -13,8 +13,24 @@ enum class NpcGoombaState {
 class NpcGoomba : public NpcMovable {
 public:
     NpcGoomba();
-    void ennemiUpdate(const int delta_time, const Map map) override;
+
+    /// <summary>
+    /// Update the data of the enemy NPC, according to the delta time elapsed, and by reference to the map given.
+    /// </summary>
+    /// <param name="delta_time">Time elapsed since last call to this method</param>
+    /// <param name="map">Map object instance</param>
+    void ennemiUpdate(const int delta_time, const Map& map) override;
+
+    /// <summary>
+    /// Returns the member X position of the NPC
+    /// </summary>
+    /// <returns>int value of position on x axis</returns>
     int getPosX() const override;
+
+    /// <summary>
+    /// Returns the member Y position of the NPC
+    /// </summary>
+    /// <returns>int value of position on y axis</returns>
     int getPosY() const override;
 
 private:

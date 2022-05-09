@@ -5,8 +5,17 @@ class Player;
 
 class PlayerDisplay {
 public:
+
+    /// <summary>
+    /// explicit constructor, stores the adress of a player object instance reference.
+    /// </summary>
+    /// <param name="_p1">object instance to store the adress of</param>
     explicit PlayerDisplay(const Player& _p1);
     ~PlayerDisplay();
+
+    /// <summary>
+    /// Draw player data on OpenGL.
+    /// </summary>
     void bindDraw();
 private:
     const Player* _player;
