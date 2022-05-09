@@ -36,6 +36,7 @@ void NpcGoomba::ennemiUpdate(const int delta_time, const Map map) {
                 _current_state = NpcGoombaState::air_right;
                 break;
             }
+            break;
         case NpcGoombaState::walk_left:
             if (!_on_ground) {
                 _current_state = NpcGoombaState::air_left;
@@ -56,6 +57,7 @@ void NpcGoomba::ennemiUpdate(const int delta_time, const Map map) {
                 _current_state = NpcGoombaState::air_left;
                 break;
             }
+            break;
         case NpcGoombaState::walk_right:
             if (!_on_ground) {
                 _current_state = NpcGoombaState::air_right;
