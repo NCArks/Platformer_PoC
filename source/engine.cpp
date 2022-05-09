@@ -74,11 +74,8 @@ void engine::Run()
 {
     // Main display loop
     while (!glfwWindowShouldClose(window)) {
-        if (display.get() == nullptr || inputs.get() == nullptr || elements.get() == nullptr || map == nullptr || player == nullptr) {
-            break;
-        }
         if (!DrawFrame()) {
-
+            break;
         }
         glfwSwapBuffers(window);
     }
@@ -157,7 +154,13 @@ void engine::Logic(LogicElements& elements, Inputs& inputs, std::chrono::steady_
 
 bool engine::DrawFrame() {
 
-    NpcGoomba* goomba = nullptr;
+    NpcGoomba goomba;
+    if (display.get() == nullptr || inputs.get() == nullptr || elements.get() == nullptr || map == nullptr || player == nullptr) {
+        return false;
+    }
+
+    Inputs local_input = *inputs.get();
+    Player local_player = *player;
 
     // Poll GLFW events
     glfwPollEvents();
@@ -183,14 +186,14 @@ bool engine::DrawFrame() {
 
         ImGui::ColorEdit3("background color", (float*)&clear_color);
 
-        ImGui::Text(("Keys: " + (inputs->getPressedStr() == "" ? "None" : inputs->getPressedStr())).c_str());
+        ImGui::Text(("Keys: " + (local_input.getPressedStr() == "" ? "None" : local_input.getPressedStr())).c_str());
 
         ImGui::Text(("state: " + player->getState()).c_str());
 
-        ImGui::Text(("pos_x: " + std::to_string(player->getPosX())).c_str());
-        ImGui::Text(("pos_y: " + std::to_string(player->getPosY())).c_str());
-        ImGui::Text(("spd_x: " + std::to_string(player->getSpdX())).c_str());
-        ImGui::Text(("spd_y: " + std::to_string(player->getSpdY())).c_str());
+        ImGui::Text(("pos_x: " + std::to_string(local_player.getPosX())).c_str());
+        ImGui::Text(("pos_y: " + std::to_string(local_player.getPosY())).c_str());
+        ImGui::Text(("spd_x: " + std::to_string(local_player.getSpdX())).c_str());
+        ImGui::Text(("spd_y: " + std::to_string(local_player.getSpdY())).c_str());
 
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
@@ -206,28 +209,28 @@ bool engine::DrawFrame() {
 
     // Camera follows player
     if (dvar.scroll_right) {
-        if (player->getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .35f / aspect_ratio) {
+        if (local_player.getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .35f / aspect_ratio) {
             dvar.camera_x = player->getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
         }
-        else if (player->getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .65f / aspect_ratio) {
-            dvar.camera_x = player->getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
+        else if (local_player.getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .65f / aspect_ratio) {
+            dvar.camera_x = local_player.getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
             dvar.scroll_right = false;
         }
     }
     else {
-        if (player->getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .65f / aspect_ratio) {
-            dvar.camera_x = player->getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
+        if (local_player.getPosX() / TILE_SIZE - dvar.camera_x > dvar.zoom_level * .65f / aspect_ratio) {
+            dvar.camera_x = local_player.getPosX() / TILE_SIZE - dvar.zoom_level * .35f / aspect_ratio;
             dvar.scroll_right = true;
         }
-        else if (player->getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .35f / aspect_ratio) {
-            dvar.camera_x = player->getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
+        else if (local_player.getPosX() / TILE_SIZE - dvar.camera_x < -dvar.zoom_level * .35f / aspect_ratio) {
+            dvar.camera_x = local_player.getPosX() / TILE_SIZE + dvar.zoom_level * .35f / aspect_ratio;
         }
     }
     if (player->getPosY() / TILE_SIZE > dvar.zoom_level * .95f) {
-        dvar.zoom_level = player->getPosY() / TILE_SIZE / .95f;
+        dvar.zoom_level = local_player.getPosY() / TILE_SIZE / .95f;
     }
     else if (player->getPosY() / TILE_SIZE < -dvar.zoom_level * .95f) {
-        dvar.zoom_level = -(player->getPosY()) / TILE_SIZE / .95f;
+        dvar.zoom_level = -(local_player.getPosY()) / TILE_SIZE / .95f;
     }
 
     // Draw map tiles
@@ -264,7 +267,7 @@ bool engine::DrawFrame() {
     // Draw player
     playerIcon.use();
     playerIcon.setU("aspect_ratio", aspect_ratio);
-    playerIcon.setU("pos", player->getPosX() / TILE_SIZE, player->getPosY() / TILE_SIZE);
+    playerIcon.setU("pos", local_player.getPosX() / TILE_SIZE, local_player.getPosY() / TILE_SIZE);
     playerIcon.setU("zoom", 1 / dvar.zoom_level);
     playerIcon.setU("camera_x", dvar.camera_x);
 
@@ -277,13 +280,12 @@ bool engine::DrawFrame() {
 
     // Draw ennemies A
     for (int i = 0; i < elements->getEnnemiACount(); i++) {
-        goomba = elements->getEnnemiA(i);
+        goomba = *elements->getEnnemiA(i);
         playerIcon.use();
         playerIcon.setU("aspect_ratio", aspect_ratio);
-        playerIcon.setU("pos", goomba->getPosX() / TILE_SIZE, goomba->getPosY() / TILE_SIZE);
+        playerIcon.setU("pos", goomba.getPosX() / TILE_SIZE, goomba.getPosY() / TILE_SIZE);
         playerIcon.setU("zoom", 1 / dvar.zoom_level);
         playerIcon.setU("camera_x", dvar.camera_x);
-        //playerIcon.setU("facing_left", elements.getP1().getFacingLeft());
         pd->bindDraw();
     }
 
