@@ -491,3 +491,4 @@ tests/triangle-vulkan
 tests/window
 tests/windows
 .vscode/settings.json
+/imgui.ini
