@@ -122,23 +122,23 @@ void Player::PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time
     updatePhysics(delta_time, map);
 }
 
-const float Player::getPosX() const {
+float Player::getPosX() const {
     return _old_posx;
 }
 
-const float Player::getPosY() const {
+float Player::getPosY() const {
     return _old_posy;
 }
 
-const float Player::getSpdX() const {
+float Player::getSpdX() const {
     return _speedx;
 }
 
-const float Player::getSpdY() const {
+float Player::getSpdY() const {
     return _speedy;
 }
 
-const std::string Player::getState() const {
+std::string Player::getState() const {
     if (_current_state == PlayerState::stand) {
         return std::string("stand");
     }
@@ -169,4 +169,51 @@ float& Player::getRefMaxFallSpd() {
 
 float& Player::getRefMinJumpSpd() {
     return _min_jump_speed;
+}
+
+/*
+float Player::getRefJumpSpd() const {
+    return _jump_speed;
+}
+
+float Player::getRefWalkSpd() const {
+    return _walk_speed;
+}
+
+float Player::getRefGravityConst() const {
+    return _gravity_constant;
+}
+
+float Player::getRefMaxFallSpd() const {
+    return _max_fall_speed;
+}
+
+float Player::getRefMinJumpSpd() const {
+    return _min_jump_speed;
+}
+*/
+
+void Player::setRefJumpSpd(const float f)
+{
+    _jump_speed = f;
+}
+
+void Player::setRefWalkSpd(const float f)
+{
+    _walk_speed = f;
+}
+
+void Player::setRefGravityConst(const float f)
+{
+    _gravity_constant = f;
+}
+
+void Player::setRefMaxFallSpd(const float f)
+{
+    _max_fall_speed = f;
+}
+
+void Player::setRefMinJumpSpd(const float f)
+{
+    _min_jump_speed = f;
 }

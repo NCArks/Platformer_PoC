@@ -22,17 +22,31 @@ private:
 public:
     Player();
     void PlayerUpdate(std::unordered_set<int> keys_pressed, float delta_time, Map map);
-    const float getPosX() const;
-    const float getPosY() const;
-    const float getSpdX() const;
-    const float getSpdY() const;
-    const std::string getState() const;
+    float getPosX() const;
+    float getPosY() const;
+    float getSpdX() const;
+    float getSpdY() const;
+    std::string getState() const;
 
     float& getRefJumpSpd();
     float& getRefWalkSpd();
     float& getRefGravityConst();
     float& getRefMaxFallSpd();
     float& getRefMinJumpSpd();
+
+    /*
+    float getRefJumpSpd() const;
+    float getRefWalkSpd() const;
+    float getRefGravityConst() const;
+    float getRefMaxFallSpd() const;
+    float getRefMinJumpSpd() const;
+    */
+
+    void setRefJumpSpd(const float f);
+    void setRefWalkSpd(const float f);
+    void setRefGravityConst(const float f);
+    void setRefMaxFallSpd(const float f);
+    void setRefMinJumpSpd(const float f);
 
     //float getColliderX();
     //float getColliderY();

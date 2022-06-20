@@ -3,21 +3,21 @@
 
 class BoxCollider {
 protected:
-    int _posx;
-    int _posy;
-    int _half_width;
-    int _half_height;
+    int _posx = 0;
+    int _posy = 0;
+    int _half_width = 0;
+    int _half_height = 0;
 
 public:
     BoxCollider();
     ~BoxCollider();
-    bool overlaps(BoxCollider other);
-    int getPosX();
-    int getPosY();
-    int getHalfWidth();
-    int getHalfHeight();
+    bool overlaps(BoxCollider const other);
+    int getPosX() const;
+    int getPosY() const;
+    int getHalfWidth() const; 
+    int getHalfHeight() const;
 
-    void setPos(int posx, int posy);
+    void setPos(int const posx, int const posy);
 
     class MovingObject;
 };

@@ -7,14 +7,14 @@
 
 class DisplayElements {
 private:
-    PlayerDisplay _pd1;
-    MapDisplay _mapd;
+    PlayerDisplay* p_pd1 = nullptr;
+    MapDisplay* p_mapd = nullptr;
 
 public:
-    DisplayElements(LogicElements logic);
+    DisplayElements(const LogicElements* logic);
     ~DisplayElements();
-    PlayerDisplay& getPd1();
-    MapDisplay& getMapDisplay();
+    PlayerDisplay* getPd1() const;
+    MapDisplay* getMapDisplay() const;
 };
 
 #endif

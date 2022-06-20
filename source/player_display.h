@@ -5,11 +5,11 @@ class Player;
 
 class PlayerDisplay {
 public:
-    PlayerDisplay(Player& _p1);
+    PlayerDisplay(const Player* _p1);
     ~PlayerDisplay();
     void bindDraw();
 private:
-    Player* _player;
+    const Player* _player;
     unsigned int _vao;
     unsigned int _vbo;
     const float _vertices[9] = {

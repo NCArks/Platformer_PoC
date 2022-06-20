@@ -16,32 +16,32 @@ enum class TileType {
 
 class Map {
 private:
-    int _width;
-    int _height;
+    int _width = 0;
+    int _height = 0;
     int _posx = 0;
     int _posy = 0;
     std::vector<TileType> _tiles;
 
 public:
     Map();
-    Map(int width, int height, std::vector<TileType> tiles);
+    Map(int const width, int const height, std::vector<TileType> const tiles);
 
-    const int getMapWidth() const;
-    const int getMapHeight() const;
+    int getMapWidth() const;
+    int getMapHeight() const;
 
     /*int GetMapTileAtPoint(float x, float y);*/
-    const int getMapTileXAtPoint(int x) const; //posYToTileX
-    const int getMapTileYAtPoint(int y) const; //posXToTileY
-    int getMapTileX(int x);
-    int getMapTileY(int y);
-    TileType getTile(int x, int y) const;
-    const bool isObstacle(int x, int y) const;
-    const bool isGround(int x, int y) const;
-    bool isOneWayPlatform(int x, int y);
-    bool isEmpty(int x, int y) const;
+    const int getMapTileXAtPoint(const int x) const; //posYToTileX
+    const int getMapTileYAtPoint(const int y) const; //posXToTileY
+    int getMapTileX(int const x) const;
+    int getMapTileY(int const y) const;
+    TileType getTile(int const x, int const y) const;
+    bool isObstacle(int const x, int const y) const;
+    bool isGround(int const x, int const y) const;
+    bool isOneWayPlatform(int const x, int const y) const;
+    bool isEmpty(int const x, int const  y) const;
     int getTileSize() const;
-    const int getPosX() const;
-    const int getPosY() const;
+    int getPosX() const;
+    int getPosY() const;
 };
 
 #endif
