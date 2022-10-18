@@ -1,14 +1,22 @@
 #include "shader.h"
+
 #include <glad/glad.h>
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
 void Shader::initialize(const char* vertexPath, const char* fragmentPath) {
-    std::string vertexCode;
-    std::string fragmentCode;
+    if (vertexPath == nullptr || fragmentPath == nullptr) {
+        std::cout << "One of the Shader Paths are empty" << std::endl;
+        return;
+    }
+
+    std::string vertexCode = std::string();
+    std::string fragmentCode = std::string();
     std::ifstream vShaderFile;
     std::ifstream fShaderFile;
+
     vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try {

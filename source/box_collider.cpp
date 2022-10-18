@@ -1,4 +1,5 @@
 #include "box_collider.h"
+
 #include <cmath>
 
 BoxCollider::BoxCollider() {}
@@ -15,19 +16,19 @@ bool BoxCollider::overlaps(BoxCollider other) {
     return true;
 }
 
-int BoxCollider::getPosX() {
+int BoxCollider::getPosX() const {
     return _posx;
 }
 
-int BoxCollider::getPosY() {
+int BoxCollider::getPosY() const {
     return _posy;
 }
 
-int BoxCollider::getHalfWidth() {
+int BoxCollider::getHalfWidth() const {
     return _half_width;
 }
 
-int BoxCollider::getHalfHeight() {
+int BoxCollider::getHalfHeight() const {
     return _half_height;
 }
 

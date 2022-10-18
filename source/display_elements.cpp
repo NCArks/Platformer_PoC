@@ -2,18 +2,24 @@
 
 #include "player_display.h"
 
-DisplayElements::DisplayElements(LogicElements logic) :
-    _pd1(logic.getP1()),
-    _mapd(logic.getMap())
+DisplayElements::DisplayElements()
 {
 }
 
-DisplayElements::~DisplayElements() = default;
 
-PlayerDisplay& DisplayElements::getPd1() {
-    return _pd1;
+DisplayElements::DisplayElements(const LogicElements& logic) :
+    p_pd1(std::make_unique<PlayerDisplay>(*(logic.getP1()))),
+    p_mapd(std::make_unique<MapDisplay>(*(logic.getMap())))
+{
 }
 
-MapDisplay& DisplayElements::getMapDisplay() {
-    return _mapd;
+DisplayElements::~DisplayElements() {
+};
+
+PlayerDisplay* DisplayElements::getPlayerDisplay() const {
+    return p_pd1.get();
+}
+
+MapDisplay* DisplayElements::getMapDisplay() const {
+    return p_mapd.get();
 }

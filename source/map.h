@@ -16,32 +16,101 @@ enum class TileType {
 
 class Map {
 private:
-    int _width;
-    int _height;
+    int _width = 0;
+    int _height = 0;
     int _posx = 0;
     int _posy = 0;
     std::vector<TileType> _tiles;
 
 public:
     Map();
-    Map(int width, int height, std::vector<TileType> tiles);
 
-    const int getMapWidth() const;
-    const int getMapHeight() const;
+    /// <summary>
+    /// Constructor to be used in most cases. Provides Map Data for the Map object.
+    /// </summary>
+    /// <param name="width">Width of the map</param>
+    /// <param name="height">Height of the map</param>
+    /// <param name="tiles">Vector describing all the Tile types that will compose the map</param>
+    Map(int const width, int const height, std::vector<TileType> const tiles);
 
-    /*int GetMapTileAtPoint(float x, float y);*/
-    const int getMapTileXAtPoint(int x) const; //posYToTileX
-    const int getMapTileYAtPoint(int y) const; //posXToTileY
-    int getMapTileX(int x);
-    int getMapTileY(int y);
-    TileType getTile(int x, int y) const;
-    const bool isObstacle(int x, int y) const;
-    const bool isGround(int x, int y) const;
-    bool isOneWayPlatform(int x, int y);
-    bool isEmpty(int x, int y) const;
+    /// <summary>
+    /// Getter of the Map Width parameter
+    /// </summary>
+    /// <returns>Map Width integer</returns>
+    int getMapWidth() const;
+
+    /// <summary>
+    /// Getter of the Map Height parameter
+    /// </summary>
+    /// <returns>Map Height integer</returns>
+    int getMapHeight() const;
+
+    // Woya describe this one I don't get it
+    const int getMapTileXAtPoint(const int x) const; //posYToTileX
+    // Woya describe this one I don't get it
+    const int getMapTileYAtPoint(const int y) const; //posXToTileY
+    // Woya describe this one I don't get it
+    int getMapTileX(int const x) const;
+    // Woya describe this one I don't get it
+    int getMapTileY(int const y) const;
+
+    /// <summary>
+    /// Retrieves the Tile Type of the coordinates if in bound of the map size.
+    /// </summary>
+    /// <param name="x">X coordinate the caller wants the tile type of</param>
+    /// <param name="y">Y coordinate the caller wants the tile type of</param>
+    /// <returns>The tile type if the coordinates are in bound of the map, block otherwise</returns>
+    TileType getTile(int const x, int const y) const;
+
+    /// <summary>
+    /// Checks if the Tile Type of the coordinate is an obstacle (eg block type).
+    /// </summary>
+    /// <param name="x">X coordinate to check</param>
+    /// <param name="y">Y coordinate to check</param>
+    /// <returns>True if the tile is a block or if coordinates are out of bounds, false otherwise</returns>
+    bool isObstacle(int const x, int const y) const;
+
+    /// <summary>
+    /// Checks if the Tile Type of the coordinate is the ground (eg block or platform type).
+    /// </summary>
+    /// <param name="x">X coordinate to check</param>
+    /// <param name="y">Y coordinate to check</param>
+    /// <returns>True if the tile is a block or if coordinates are out of bounds, false otherwise</returns>
+    bool isGround(int const x, int const y) const;
+
+    /// <summary>
+    /// Checks if the Tile Type of the coordinate is a platform (eg platform type).
+    /// </summary>
+    /// <param name="x">X coordinate to check</param>
+    /// <param name="y">Y coordinate to check</param>
+    /// <returns>True if the tile is a platform or if coordinates are out of bounds, false otherwise</returns>
+    bool isOneWayPlatform(int const x, int const y) const;
+
+    /// <summary>
+    /// Checks if the Tile Type of the coordinate is a empty (eg empty type).
+    /// </summary>
+    /// <param name="x">X coordinate to check</param>
+    /// <param name="y">Y coordinate to check</param>
+    /// <returns>False if out of bounds or if the tile is not empty, True otherwise</returns>
+    bool isEmpty(int const x, int const  y) const;
+
+    /// <summary>
+    /// Retrieves the tile size macro as int.
+    /// </summary>
+    /// <returns>tile size macro as int</returns>
     int getTileSize() const;
-    const int getPosX() const;
-    const int getPosY() const;
+
+    /// <summary>
+    /// Unused
+    /// </summary>
+    /// <returns>Retrieves the member posx</returns>
+    int getPosX() const;
+
+    /// <summary>
+    /// Unused
+    /// </summary>
+    /// <returns>Retrieves the member posy</returns>
+    int getPosY() const;
 };
 
 #endif

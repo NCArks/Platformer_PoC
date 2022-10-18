@@ -1,30 +1,55 @@
 #include "logic_elements.h"
 
-LogicElements::LogicElements() {
-    _ennemies_a.push_back(NpcGoomba());
-}
-LogicElements::~LogicElements() = default;
+#include <memory>
 
-Player& LogicElements::getP1() {
-    return _p1;
+LogicElements::LogicElements() {
+
+}
+
+LogicElements::~LogicElements() {
+};
+
+void LogicElements::Init() {
+    p_p1 = std::make_unique<Player>();
+}
+
+Player* LogicElements::getP1() const {
+    return p_p1.get();
 }
 
 int LogicElements::getEnnemiACount() const {
-    return _ennemies_a.size();
+    return static_cast<int>(_ennemies_a.size());
 }
 
-NpcGoomba& LogicElements::getEnnemiA(int index) {
-    return _ennemies_a[index];
+void LogicElements::setEnnemiA(int const number)
+{
+    for (int i = 0; i < number; i++) {
+        _ennemies_a.push_back(std::make_unique<NpcGoomba>());
+    }
 }
 
-Map& LogicElements::getMap() {
-    return _map;
+NpcGoomba* LogicElements::getEnnemiA(int const index) const{
+    if (_ennemies_a.size() > index) {
+        return _ennemies_a[index].get();
+    }
+    else {
+        return nullptr;
+    }
+
+}
+
+void LogicElements::setMap(std::unique_ptr<Map> map) {
+    p_map = std::move(map);
+}
+
+Map* LogicElements::getMap() const {
+    return p_map.get();
 }
 
 void LogicElements::setShouldClose() {
     _shouldClose = true;
 }
 
-bool LogicElements::getShouldClose() {
+bool LogicElements::getShouldClose() const {
     return _shouldClose;
 }

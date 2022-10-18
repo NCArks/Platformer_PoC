@@ -1,6 +1,10 @@
+#ifndef test_map
+#define test_map
+
 #pragma once
 
 #include <vector>
+
 #include "map.h"
 
 std::vector<TileType> map_tiles = {
@@ -26,3 +30,4 @@ void fillMapTiles(std::vector<TileType>& m, int nb_tiles) {
         m.push_back(getRandomTile());
     }
 }
+#endif // !test_map
