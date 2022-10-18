@@ -8,7 +8,7 @@ void Movable::setSpd(float spdx, float spdy) {
     _speedy = spdy;
 }
 
-void Movable::updatePhysics(const int delta_time, const Map map) {
+void Movable::updatePhysics(const int delta_time, const Map& map) {
     _old_posx = _posx;
     _old_posy = _posy;
     _old_speedx = _speedx;
@@ -99,7 +99,7 @@ void Movable::updatePhysics(const int delta_time, const Map map) {
     }
 }
 
-bool Movable::collideTileRight(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, Map map) {
+bool Movable::collideTileRight(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, const Map& map) {
     //int right_tile_x = map.getMapTileXAtPoint(pos_x + half_width);
     //int bottom_tile_y = map.getMapTileXAtPoint(pos_y - half_height);
     //int top_tile_y = map.getMapTileXAtPoint(pos_y + half_height - 1);
@@ -126,7 +126,7 @@ bool Movable::collideTileRight(int pos_x, int pos_y, int half_width, int half_he
     return false;
 }
 
-bool Movable::collideTileLeft(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, Map map) {
+bool Movable::collideTileLeft(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, const Map& map) {
     int left_tile_x = map.getMapTileXAtPoint(pos_x - half_width - 1);
     int bottom_tile_y = map.getMapTileXAtPoint(pos_y - half_height);
     int top_tile_y = map.getMapTileXAtPoint(pos_y + half_height - 1);
@@ -153,7 +153,7 @@ bool Movable::collideTileLeft(int pos_x, int pos_y, int half_width, int half_hei
     return false;
 }
 
-bool Movable::collideTileBottom(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, Map map) {
+bool Movable::collideTileBottom(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, const Map& map) {
     int left_tile_x = map.getMapTileXAtPoint(pos_x - half_width);
     int right_tile_x = map.getMapTileXAtPoint(pos_x + half_width - 1);
     int bottom_tile_y = map.getMapTileXAtPoint(pos_y - half_height - 1);
@@ -185,7 +185,7 @@ bool Movable::collideTileBottom(int pos_x, int pos_y, int half_width, int half_h
     return false;
 }
 
-bool Movable::collideTileTop(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, Map map) {
+bool Movable::collideTileTop(int pos_x, int pos_y, int half_width, int half_height, bool on_ground, const Map& map) {
     int left_tile_x = map.getMapTileXAtPoint(pos_x - half_width);
     int right_tile_x = map.getMapTileXAtPoint(pos_x + half_width - 1);
     int top_tile_y = map.getMapTileXAtPoint(pos_y + half_height);
