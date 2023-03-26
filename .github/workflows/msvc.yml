@@ -10,7 +10,7 @@ name: Microsoft C++ Code Analysis
 
 on:
   push:
-    branches: [ main, dev, Basic_Protections ]
+    branches: [ main, dev, Basic_Protections, rhas__global_refactor ]
   pull_request:
     branches: [ main ]
     
