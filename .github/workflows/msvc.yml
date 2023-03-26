@@ -1,9 +1,7 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-#
-# Find more information at:
+#   - name: Concatenate SARIF files
+#      run: |
+#         jq -s 'map(.runs[]) | {version: "2.1.0", runs: .}' results/*.sarif > results/all-results.sarif
+
 # https://github.com/microsoft/msvc-code-analysis-action
 
 name: Microsoft C++ Code Analysis
@@ -48,11 +46,6 @@ jobs:
           cmakeBuildDirectory: ${{ env.build }}
           # Ruleset file that will determine what checks will be run
           ruleset: NativeRecommendedRules.ruleset
-
-      - name: Concatenate SARIF files
-        run: |
-          jq -s 'map(.runs[]) | {version: "2.1.0", runs: .}' results/*.sarif > results/all-results.sarif
-
 
       # Upload SARIF file to GitHub Code Scanning Alerts
       - name: Upload SARIF to GitHub
