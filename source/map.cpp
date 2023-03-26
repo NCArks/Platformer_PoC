@@ -21,11 +21,11 @@ int Map::getMapHeight() const {
 }
 
 const int Map::getMapTileXAtPoint(int x) const { //posYToTileX
-    return std::floor(float(x - _posx) / TILE_SIZE);
+    return static_cast<int>(std::floor(float(x - _posx) / TILE_SIZE));
 }
 
 const int Map::getMapTileYAtPoint(int y) const { //posXToTileY
-    return std::floor(float(y - _posy) / TILE_SIZE);
+    return static_cast<int>(std::floor(float(y - _posy) / TILE_SIZE));
 }
 
 int Map::getMapTileX(int x) const {

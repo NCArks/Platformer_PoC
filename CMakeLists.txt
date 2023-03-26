@@ -20,6 +20,7 @@ set(SOURCES
     "${SRC_DIR}/player.cpp"
     "${SRC_DIR}/player_display.cpp"
     "${SRC_DIR}/shader.cpp"
+    "${SRC_DIR}/engine.cpp"
 )
 
 set(IMGUI_SOURCES
@@ -34,7 +35,7 @@ set(IMGUI_SOURCES
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 IF (WIN32)
   # set stuff for windows

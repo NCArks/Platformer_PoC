@@ -36,10 +36,26 @@ private:
         1.0f, 1.0f, 0.0f,
     };
 public:
-    MapDisplay(const Map* map);
+    /// <summary>
+    /// Explicit constructor, needs the instance of a Map object.
+    /// </summary>
+    /// <param name="map">object instance reference of map class</param>
+    explicit MapDisplay(const Map& map);
     ~MapDisplay();
+
+    /// <summary>
+    /// Draws Tile type.
+    /// </summary>
     void bindDrawTile();
+
+    /// <summary>
+    /// Draws Tile type B.
+    /// </summary>
     void bindDrawBTile();
+
+    /// <summary>
+    /// Draws Tile type D.
+    /// </summary>
     void bindDrawDTile();
 };
 
